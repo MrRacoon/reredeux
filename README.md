@@ -23,7 +23,7 @@ const init = {
 const select = {};
 const select.data = state => state.counter;
 
-const action inc = {
+const inc = {
   name: 'inc',
   action: payload => ({ payload }),
   reducer: (s, a) => ({
@@ -32,7 +32,7 @@ const action inc = {
   }),
 };
 
-const action dec = {
+const dec = {
   name: 'dec',
   action: payload => ({ payload }),
   reducer: (s, a) => ({
