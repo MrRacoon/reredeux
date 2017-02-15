@@ -1,10 +1,13 @@
 // There are 'opinions' that aim to extract all the boilerplate from typical
 // redux, duck typing.
-import {
+import { LABELS, tools } from '../src';
+
+const {
   INITIAL_STATE, SELECT, DUCKS,
   NAME, ACTION, REDUCER,
-} from '../labels';
-import { action, reducer } from '../tools';
+} = LABELS;
+
+const { action, reducer } = tools;
 
 // Initial state
 const COUNTER = 'counter';

@@ -2,7 +2,7 @@ import should from 'should';
 import { createStore } from 'redux';
 import { curry, mapObjIndexed } from 'ramda';
 
-import state from '../src/example';
+import state from '../example';
 import { reducer, LABELS } from '../src';
 
 const {

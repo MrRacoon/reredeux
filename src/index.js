@@ -1,7 +1,7 @@
 import deux from './deux';
 import reducer from './reducer';
 import lookup from './lookup';
-import tools from './tools';
+import * as tools from './tools';
 import LABELS from './labels';
 import rere from './rere';
 
