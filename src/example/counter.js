@@ -46,7 +46,7 @@ const set = {
 
 const reset = {
   [NAME]: 'reset',
-  [ACTION]: action.payload.bind(null, init),
+  [ACTION]: () => action.payload(init),
   [REDUCER]: reducer.merge,
 };
 
