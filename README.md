@@ -48,3 +48,9 @@ export default {
   ducks         : [ inc, dec ],
 };
 ```
+
+### License
+
+[MIT License](http://opensource.org/licenses/MIT)
+
+Copyright &copy; 2017 Erik Sutherland. All rights reserved.
