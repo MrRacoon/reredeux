@@ -10,3 +10,41 @@ Generate redux state trees, selectors, and actions.
 ```shell
 npm install reredux --save
 ```
+
+#### Usage
+
+This lib allows you to write redux modules like so:
+
+```javascript
+const init = {
+  counter: 0
+};
+
+const select = {};
+const select.data = state => state.counter;
+
+const action inc = {
+  name: 'inc',
+  action: payload => ({ payload }),
+  reducer: (s, a) => ({
+    ...s,
+    counter: select.data(s) + 1,
+  }),
+};
+
+const action dec = {
+  name: 'dec',
+  action: payload => ({ payload }),
+  reducer: (s, a) => ({
+    ...s,
+    counter: select.data(s) - 1,
+  }),
+};
+
+export default {
+  name          : 'counter',
+  initial_state : init,
+  selectors     : select,
+  ducks         : [ inc, dec ],
+};
+```
