@@ -51,7 +51,7 @@ Module :: {
 }
 ```
 
-#### Usage
+### Usage
 
 To combine modules, give the `deux` function a `name` string, and a **list** of
 `modules`. This will produce a new module. The new module can then be included
@@ -69,7 +69,7 @@ For convenience, there is a `reredeux` function that is equivalent to calling
 You should now have most of the parts you need to own and operate your very own
 modular redux store!
 
-#### Example
+### Example
 
 ```javascript
 const counter = {
