@@ -17,7 +17,9 @@ const init = {
 
 // Primitive selectors
 const select = {};
-select.data = s => s[COUNTER];
+select.value = s => s[COUNTER];
+select.succ  = s => s[COUNTER] + 1;
+select.pred  = s => s[COUNTER] - 1;
 
 // Transforms
 const increment = {
@@ -25,7 +27,7 @@ const increment = {
   [ACTION]: action.payload,
   [REDUCER]: (s) => ({
     ...s,
-    [COUNTER]: select.data(s) + 1,
+    [COUNTER]: select.succ(s),
   }),
 };
 
@@ -34,7 +36,7 @@ const decrement = {
   [ACTION]: action.payload,
   [REDUCER]: (s) => ({
     ...s,
-    [COUNTER]: select.data(s) - 1,
+    [COUNTER]: select.pred(s),
   }),
 };
 

@@ -4,7 +4,19 @@ import lookup from './lookup';
 import * as tools from './tools';
 import LABELS from './labels';
 import rere from './rere';
+import reredeux from './reredeux';
 
-export { deux, LABELS, lookup, reducer, rere, tools };
+export {
+  LABELS,
 
-export default rere;
+  rere,
+  deux,
+  reredeux,
+
+  lookup,
+  reducer,
+
+  tools
+};
+
+export default reredeux;

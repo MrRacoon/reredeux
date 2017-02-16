@@ -1,5 +1,6 @@
 
 // High level labels
+export const STORE         = 'store';
 export const INITIAL_STATE = 'init';
 export const SELECT        = 'select';
 export const DUCKS         = 'ducks';

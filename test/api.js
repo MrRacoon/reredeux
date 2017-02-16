@@ -3,7 +3,7 @@ import { createStore } from 'redux';
 import { curry, mapObjIndexed } from 'ramda';
 
 import state from '../example';
-import { reducer, LABELS } from '../src';
+import { LABELS } from '../src';
 
 const {
   INITIAL_STATE, SELECT, DUCKS,
@@ -37,7 +37,7 @@ const testSelector = curry((name, nx) => {
 
 describe(state[NAME], () => {
   beforeEach(() => {
-    store = createStore(reducer(state), state[INITIAL_STATE]);
+    store = createStore(state[REDUCER], state[INITIAL_STATE]);
   });
   describe(NAME, () => {
     it('exists', () => {
