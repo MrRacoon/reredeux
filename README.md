@@ -14,27 +14,27 @@ Generate redux state trees, selectors, and actions.
 #### Duck
 
 `Ducks` describe state transitions. They should look familiar if you've used
-duck-typing in redux, and even more if you've used thunks, There are two types available.
+duck-typing in redux. There are two patterns offered by this library.
 
 ```Haskell
 Duck :: {
   -- Identification in action map
-  name    :: String
+  name :: String
   -- Redux Action creator, that returns a promise
-  action  :: (Payload | Error) -> { type, Payload | Error }
+  action :: (Payload | Error) -> { type, Payload | Error }
   -- Redux reducer function
   reducer :: (State, Action) -> State
 }
 
 AsyncDuck :: {
   -- Name of the duck, for identification in lookup tables
-  name    :: String
+  name :: String
   -- Redux Action creator, that returns a promise, rather than object
   promise :: (...args) => Promise
   -- Redux Reducer for the Promise.resolve case
-  then    :: (State, PayloadAction) => State
+  then :: (State, PayloadAction) => State
   -- Redux Reducer for the Promise.reject case
-  catch   :: (State, ErrorAction) => State
+  catch :: (State, ErrorAction) => State
 }
 ```
 
