@@ -16,44 +16,38 @@ Generate redux state trees, selectors, and actions.
 `Ducks` describe state transitions. They should look familiar if you've used
 duck-typing in redux, and even more if you've used thunks, There are two types available.
 
-One duck consists of a
-* `name` - to id later on in maps
-* `action` - the actionCreator (type is inferred by the name).
-* `reducer` - to identify the actions and reducers.
-
-notice the loss of type, they get inserted when you run `deux`.
-* ~~`type`~~ - *the type is now inferred by the name*
-
 ```Haskell
 Duck :: {
+  -- Identification in action map
   name    :: String
+  -- Redux Action creator, that returns a promise
   action  :: (Payload | Error) -> { type, Payload | Error }
+  -- Redux reducer function
   reducer :: (State, Action) -> State
 }
 
 AsyncDuck :: {
+  -- Name of the duck, for identification in lookup tables
   name    :: String
+  -- Redux Action creator, that returns a promise, rather than object
   promise :: (...args) => Promise
-  then    :: (State, ResolvePayload) => State
-  catch   :: (State, RejectError) => State
+  -- Redux Reducer for the Promise.resolve case
+  then    :: (State, PayloadAction) => State
+  -- Redux Reducer for the Promise.reject case
+  catch   :: (State, ErrorAction) => State
 }
 ```
 
 #### Module
 
-Use ducks to define "sections" of state.
-
-* `name`   - name of the module
-* `init`   - initial state
-* `select` - selectors, for the module's state
-* `ducks`  - a list of Duck objects (explained later)
+Use ducks to define "sections" of state called `modules`.
 
 ```Haskell
 Module :: {
-  name   :: String, -- Name of the module
-  init   :: { State }, -- The initial state
-  select :: { selectorName : selector }, -- Modulse specific selectors
-  ducks, :: [ Duck | AsyncDuck ] -- List of Ducks, for changing values in state
+  name   :: String,              -- Name of the module
+  init   :: State,               -- The initial state
+  select :: { state => a },      -- Module specific selectors
+  ducks, :: [ Duck | AsyncDuck ] -- List of Ducks
 }
 ```
 
