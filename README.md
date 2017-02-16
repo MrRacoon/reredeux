@@ -7,8 +7,6 @@ Generate redux state trees, selectors, and actions.
 
 **Under Active Development, Not for Production**
 
-`npm install reredux --save`
-
 ### The Patterns
 
 #### Duck
