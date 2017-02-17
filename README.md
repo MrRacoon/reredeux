@@ -44,7 +44,7 @@ Use ducks to define "sections" of state called `modules`.
 Module :: {
   name   :: String,              -- Name of the module
   init   :: State,               -- The initial state
-  select :: { state => a },      -- Module specific selectors
+  select :: { State => a },      -- Module specific selectors
   ducks, :: [ Duck | AsyncDuck ] -- List of Ducks
 }
 ```
