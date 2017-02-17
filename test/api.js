@@ -1,7 +1,8 @@
 import should from 'should';
 import { createStore } from 'redux';
-import { curry, mapObjIndexed } from 'ramda';
+import { compose, groupBy, length, map, prop } from 'ramda';
 
+import { testSelector, log } from './utils';
 import state from '../example';
 import { LABELS } from '../src';
 
@@ -11,34 +12,10 @@ const {
   PROMISE,
 } = LABELS;
 
-let store;
-
-const util = require('util');
-console.log(util.inspect(state, false, null)); // eslint-disable-line
-
-const testSelector = curry((name, nx) => {
-  switch (typeof nx) {
-  case 'object':
-    mapObjIndexed((v, k) => {
-      describe(name, () => {
-        testSelector(k, v);
-      });
-    }, nx);
-    break;
-  case 'function':
-    it(`${name} selects existing data`, () => {
-      should.exist(nx(store.getState()));
-    });
-    break;
-  default:
-    true.should.be.false;
-  }
-});
+log(state);
+let store = createStore(state[REDUCER], state[INITIAL_STATE]);
 
 describe(state[NAME], () => {
-  beforeEach(() => {
-    store = createStore(state[REDUCER], state[INITIAL_STATE]);
-  });
   describe(NAME, () => {
     it('exists', () => {
       should(state[NAME]).toBeDefined;
@@ -56,18 +33,26 @@ describe(state[NAME], () => {
       should(state[SELECT]).toBeDefined;
       state[SELECT].should.be.instanceOf(Object);
     });
-    testSelector(state[NAME], state[SELECT]);
+    const st = store.getState();
+    testSelector(st, state[NAME], state[SELECT]);
   });
   describe(DUCKS, () => {
     it('exists', () => {
       should(state[DUCKS]).toBeDefined;
       state[DUCKS].should.be.instanceOf(Array);
     });
+    const names = compose(
+      map(length),
+      groupBy(prop(NAME))
+    )(state[DUCKS]);
     state[DUCKS].map(d => {
       describe(d[TYPE], () => {
         describe(NAME, () => {
           it('exists', () => {
             should.exist(d[NAME]);
+          });
+          it('is uniq', () => {
+            names[d[NAME]].should.be.eql(1);
           });
         });
         describe(TYPE, () => {
