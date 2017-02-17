@@ -1,6 +1,8 @@
 import reredeux from '../src';
 import counter from './counter';
+import todo from './todo';
 
-export const app = reredeux('app', [ counter ]);
-
-export default app;
+export default reredeux('example', [
+  counter,
+  todo
+]);

@@ -1,6 +1,6 @@
 import should from 'should';
 import { createStore } from 'redux';
-import reredeux from '../src';
+import reredeux from '../../src';
 import counter from './counter';
 
 const app = reredeux('app', [ counter ]);

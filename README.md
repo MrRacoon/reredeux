@@ -27,12 +27,14 @@ Duck :: {
 AsyncDuck :: {
   -- Name of the duck, for identification in lookup tables
   name :: String
-  -- Redux Action creator, that returns a promise, rather than object
+  -- Promise constructor
   promise :: (...args) => Promise
-  -- Redux Reducer for the Promise.resolve case
-  then :: (State, PayloadAction) => State
-  -- Redux Reducer for the Promise.reject case
-  catch :: (State, ErrorAction) => State
+  -- Redux Action creator, called on Promise.resolve
+  then :: (a) => Action | Thunk
+  -- Redux Action creator, called on Promise.reject
+  catch :: (a) => Action | Thunk
+  -- Redux reducer function, called for both resolved and rejected values
+  reducer :: (State, { payload | error }) => State
 }
 ```
 

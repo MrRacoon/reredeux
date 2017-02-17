@@ -57,9 +57,12 @@ export const expandDefers = (d) => {
   const fail  = makeFailure(d);
   const defer = {
     [NAME]: d[NAME],
-    [TYPE]: `${d[NAME]}/defer`,
-    [ACTION]: thunk.promise(d[PROMISE], succ[ACTION], fail[ACTION]),
-    [REDUCER]: reducer.async.defer(d[TYPE]),
+    [TYPE]: d[NAME],
+    [ACTION]: (...args) => (dispatch) =>
+      d[PROMISE](...args)
+        .then(succ[ACTION], fail[ACTION])
+        .then(dispatch),
+    [REDUCER]: reducer.async.defer(d[TYPE], d[REDUCER] || identity),
   };
   return [ defer, succ, fail ];
 };
@@ -67,13 +70,13 @@ export const expandDefers = (d) => {
 export const makeSuccess = (d) => ({
   [NAME]: `${d[NAME]}Success`,
   [TYPE]: `${d[NAME]}/success`,
-  [ACTION]: action.payload,
-  [REDUCER]: reducer.async.success(d[TYPE], d[THEN] || identity)
+  [ACTION]: d[THEN] || action.payload,
+  [REDUCER]: reducer.async.success(d[TYPE], identity)
 });
 
 export const makeFailure = (d) => ({
   [NAME]: `${d[NAME]}Failure`,
   [TYPE]: `${d[NAME]}/failure`,
-  [ACTION]: action.error,
-  [REDUCER]: reducer.async.failure(d[TYPE], d[CATCH] || identity)
+  [ACTION]: d[CATCH] || action.error,
+  [REDUCER]: reducer.async.failure(d[TYPE], identity)
 });
