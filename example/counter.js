@@ -7,7 +7,7 @@ const {
   NAME, ACTION, REDUCER,
 } = LABELS;
 
-const { action, reducer } = tools;
+const { action } = tools;
 
 // Initial state
 const COUNTER = 'counter';
@@ -52,7 +52,10 @@ const set = {
 const reset = {
   [NAME]: 'reset',
   [ACTION]: () => action.payload(init),
-  [REDUCER]: reducer.merge,
+  [REDUCER]: (s, { payload }) => ({
+    ...s,
+    ...payload,
+  }),
 };
 
 // Every module must export these four things

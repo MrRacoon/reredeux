@@ -90,6 +90,17 @@ describe(state[NAME], () => {
         describe(REDUCER, () => {
           it('exists', () => {
             should.exist(d[REDUCER]);
+            d[REDUCER].should.be.instanceOf(Function);
+          });
+          it('minds the canary', () => {
+            if (d[REDUCER]) {
+              const CANARY = 'asdfhhh299dhwnxa0a0d9822bbslsiaaudo28000al';
+              const s = {
+                ...state[INITIAL_STATE],
+                [CANARY]: 'canary',
+              };
+              d[REDUCER](s, d[ACTION]()).should.have.property(CANARY);
+            }
           });
         });
       });
