@@ -103,12 +103,12 @@ const store = createStore(app.reducer, app.init);
 
 const state = store.getState();
 
-store.dispatch(app.action.counter.increment());
-store.dispatch(app.action.counter.increment());
-store.dispatch(app.action.counter.increment());
-store.dispatch(app.action.counter.increment());
+store.dispatch(app.action.increment());
+store.dispatch(app.action.increment());
+store.dispatch(app.action.increment());
+store.dispatch(app.action.increment());
 
-console.log(app.select.counter.value(store.getState()))
+console.log(app.select.counter.value(store.getState()));
 // 4
 ```
 
