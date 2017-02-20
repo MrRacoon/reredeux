@@ -45,7 +45,6 @@ const injectTypeAction = (obj) => obj[PROMISE]
     [ACTION]: (...args) => assoc(TYPE, obj[TYPE], obj[ACTION](...args)),
   };
 
-
 const prependNameType = curry((n, obj) => ({
   ...obj,
   [TYPE]: `${n}/${obj[TYPE]}`,
@@ -54,4 +53,15 @@ const prependNameType = curry((n, obj) => ({
 const defaultType = (obj) => ({
   ...obj,
   [TYPE]: obj[TYPE] || obj[NAME],
+});
+
+const selectorPatch = curry((n, sel) => {
+  switch (typeof sel) {
+  case 'object':
+    return map(selectorPatch(n), sel);
+  case 'function':
+    return state => sel(state[n]);
+  default:
+    return sel;
+  }
 });
