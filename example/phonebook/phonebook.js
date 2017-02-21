@@ -2,7 +2,7 @@ import { indexBy } from 'ramda';
 import { LABELS, tools } from '../../src';
 
 const {
-  NAME, INITIAL_STATE, SELECT, DUCKS,
+  NAME, INIT, SELECT, DUCKS,
   ACTION, REDUCER,
 } = LABELS;
 
@@ -27,7 +27,7 @@ const addEntry = {
 
 export default {
   [NAME]   : PB,
-  [INITIAL_STATE]   : init,
+  [INIT]   : init,
   [SELECT] : select,
   [DUCKS]  : [
     addEntry,

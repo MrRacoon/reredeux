@@ -3,7 +3,7 @@
 import { LABELS, tools } from '../../src';
 
 const {
-  INITIAL_STATE, SELECT, DUCKS,
+  INIT, SELECT, DUCKS,
   NAME, ACTION, REDUCER,
 } = LABELS;
 
@@ -63,7 +63,7 @@ export default {
   // The name of the module, for scoping purposes
   [NAME]: COUNTER,
   // Thei initial state, which will be passed to redux.
-  [INITIAL_STATE]: init,
+  [INIT]: init,
   // Primitive selectors, that consumers of the module can use.
   [SELECT]: select,
   // Ducks, that describe the state transforms, which will later be used to

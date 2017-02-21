@@ -2,7 +2,7 @@ import { filter, map, prop, propEq } from 'ramda';
 import { LABELS } from '../../src';
 
 const {
-  NAME, INITIAL_STATE, SELECT, DUCKS,
+  NAME, INIT, SELECT, DUCKS,
   ACTION, REDUCER, PROMISE,
 } = LABELS;
 
@@ -53,7 +53,7 @@ const loadTodos = {
 
 export default {
   [NAME]: name,
-  [INITIAL_STATE]: init,
+  [INIT]: init,
   [SELECT]: select,
   [DUCKS]: [ addTodo, loadTodos ],
 };

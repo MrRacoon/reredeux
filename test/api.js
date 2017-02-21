@@ -7,13 +7,13 @@ import state from '../example';
 import { LABELS } from '../src';
 
 const {
-  INITIAL_STATE, SELECT, DUCKS,
+  INIT, SELECT, DUCKS,
   NAME, TYPE, ACTION, REDUCER,
   PROMISE,
 } = LABELS;
 
 log(state);
-let store = createStore(state[REDUCER], state[INITIAL_STATE]);
+let store = createStore(state[REDUCER], state[INIT]);
 
 describe(state[NAME], () => {
   describe(NAME, () => {
@@ -22,10 +22,10 @@ describe(state[NAME], () => {
       state[NAME].should.be.instanceOf(String);
     });
   });
-  describe(INITIAL_STATE, () => {
+  describe(INIT, () => {
     it('exists', () => {
-      should(state[INITIAL_STATE]).toBeDefined;
-      state[INITIAL_STATE].should.be.instanceOf(Object);
+      should(state[INIT]).toBeDefined;
+      state[INIT].should.be.instanceOf(Object);
     });
   });
   describe(SELECT, () => {
@@ -81,7 +81,7 @@ describe(state[NAME], () => {
             if (d[REDUCER]) {
               const CANARY = 'asdfhhh299dhwnxa0a0d9822bbslsiaaudo28000al';
               const s = {
-                ...state[INITIAL_STATE],
+                ...state[INIT],
                 [CANARY]: 'canary',
               };
               d[REDUCER](s, d[ACTION]()).should.have.property(CANARY);

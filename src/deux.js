@@ -5,7 +5,7 @@ import {
 import { expandDefers } from './tools';
 
 import {
-  NAME, INITIAL_STATE, SELECT, DUCKS,
+  NAME, INIT, SELECT, DUCKS,
   TYPE, ACTION,
   PROMISE
 } from './labels';
@@ -14,7 +14,7 @@ export default (name, mods) => {
 
   const init = compose(
     mergeAll,
-    map(prop(INITIAL_STATE))
+    map(prop(INIT))
   )(mods);
 
   const select = compose(
@@ -32,7 +32,7 @@ export default (name, mods) => {
 
   return {
     [NAME]          : name,
-    [INITIAL_STATE] : init,
+    [INIT] : init,
     [SELECT]        : select,
     [DUCKS]         : ducks,
   };

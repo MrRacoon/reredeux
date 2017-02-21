@@ -5,7 +5,7 @@ import reredeux, { LABELS } from '../../src';
 import todo from './todo';
 
 const {
-  NAME, TYPE, INITIAL_STATE, SELECT, DUCKS,
+  NAME, TYPE, INIT, SELECT, DUCKS,
 } = LABELS;
 
 const app = reredeux('app', [ todo ]);
@@ -17,15 +17,15 @@ describe(todo[NAME], () => {
     store = createStore(app.reducer, app.init);
     state = store.getState();
   });
-  describe(INITIAL_STATE, () => {
+  describe(INIT, () => {
     it('exists', () => {
-      should.exist(todo[INITIAL_STATE]);
+      should.exist(todo[INIT]);
     });
   });
   describe(SELECT, () => {
     it('value', () => {
       todo[SELECT].value(state)
-        .should.be.eql(app[INITIAL_STATE].todo);
+        .should.be.eql(app[INIT].todo);
       todo[SELECT].value(state)
         .should.be.eql(state.todo);
     });

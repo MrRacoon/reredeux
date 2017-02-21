@@ -1,9 +1,9 @@
 
 // High level labels
-export const STORE         = 'store';
-export const INITIAL_STATE = 'init';
-export const SELECT        = 'select';
-export const DUCKS         = 'ducks';
+export const STORE   = 'store';
+export const INIT    = 'init';
+export const SELECT  = 'select';
+export const DUCKS   = 'ducks';
 
 // Duck level labels
 export const NAME    = 'name';
@@ -15,10 +15,10 @@ export const THEN    = 'then';
 export const CATCH   = 'catch';
 
 // Common state
-export const ASYNC         = 'async';
+export const ASYNC   = 'async';
 
 export default {
-  INITIAL_STATE, SELECT, DUCKS,
+  INIT, SELECT, DUCKS,
   NAME, TYPE, ACTION, REDUCER,
   PROMISE, THEN, CATCH
 };
