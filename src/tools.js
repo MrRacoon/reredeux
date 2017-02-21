@@ -1,4 +1,5 @@
 import { assocPath, compose, identity, merge, propOr } from 'ramda';
+
 import {
   NAME, TYPE, ACTION, REDUCER,
   ASYNC,

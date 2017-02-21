@@ -31,10 +31,10 @@ export default (name, mods) => {
   )(mods);
 
   return {
-    [NAME]: name,
-    [INITIAL_STATE]: init,
-    [SELECT]: select,
-    [DUCKS]: ducks,
+    [NAME]          : name,
+    [INITIAL_STATE] : init,
+    [SELECT]        : select,
+    [DUCKS]         : ducks,
   };
 };
 
@@ -57,11 +57,22 @@ const defaultType = (obj) => ({
 
 const selectorPatch = curry((n, sel) => {
   switch (typeof sel) {
+  case 'object'   : return map(selectorPatch(n), sel);
+  case 'function' : return state => sel(state[n]);
+  default         : return sel;
+  }
+});
+
+const reducerPatch = curry((n, red) => {
+  switch (typeof sel) {
   case 'object':
-    return map(selectorPatch(n), sel);
+    return map(reducerPatch(n), red);
   case 'function':
-    return state => sel(state[n]);
+    return (state, action) => ({
+      ...state,
+      [state[n]]: red(state[n], action),
+    });
   default:
-    return sel;
+    return red;
   }
 });
