@@ -7,7 +7,7 @@
     "test:lint": "eslint ./**/*.js",
     "test:examples": "mocha example/**/test.js",
     "test:api": "mocha test/api.js",
-    "test": "run-s test:*"
+    "test": "run-s test:lint test:api"
   },
   "repository": {
     "type": "git",

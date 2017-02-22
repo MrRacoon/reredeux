@@ -58,7 +58,7 @@ export const expandDefers = (d) => {
   const fail  = makeFailure(d);
   const defer = {
     [NAME]: d[NAME],
-    [TYPE]: d[NAME],
+    [TYPE]: d[TYPE],
     [ACTION]: (...args) => (dispatch) =>
       d[PROMISE](...args)
         .then(succ[ACTION], fail[ACTION])
@@ -70,14 +70,14 @@ export const expandDefers = (d) => {
 
 export const makeSuccess = (d) => ({
   [NAME]: `${d[NAME]}Success`,
-  [TYPE]: `${d[NAME]}/success`,
+  [TYPE]: `${d[TYPE]}/success`,
   [ACTION]: d[THEN] || action.payload,
   [REDUCER]: reducer.async.success(d[TYPE], d[REDUCER] || identity)
 });
 
 export const makeFailure = (d) => ({
   [NAME]: `${d[NAME]}Failure`,
-  [TYPE]: `${d[NAME]}/failure`,
+  [TYPE]: `${d[TYPE]}/failure`,
   [ACTION]: d[CATCH] || action.error,
   [REDUCER]: reducer.async.failure(d[TYPE], d[REDUCER] || identity)
 });

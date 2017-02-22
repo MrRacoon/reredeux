@@ -8,7 +8,7 @@ export const log = (obj) => {
 };
 
 export const testSelector = curry((state, name, currVal) => {
-  switch (typeof curr) {
+  switch (typeof currVal) {
   case 'function':
     it(`${name} selects existing data`, () => {
       should.exist(currVal(state));

@@ -1,28 +1,32 @@
 import {
-  assoc, chain, compose, curry, map, mergeAll, prop,
+  __, assoc, chain, compose, curry, map, mergeAll, prop,
 } from 'ramda';
 
 import { expandDefers } from './tools';
 
 import {
   NAME, INIT, SELECT, DUCKS,
-  TYPE, ACTION,
+  TYPE, ACTION, REDUCER,
   PROMISE
 } from './labels';
 
 export default (name, mods) => {
 
   const init = compose(
+    assoc(name, __, {}),
     mergeAll,
     map(prop(INIT))
   )(mods);
 
   const select = compose(
+    selectorPatch(name),
+    assoc(name, __, {}),
     mergeAll,
-    map(m => ({ [m[NAME]]: m[SELECT] }))
+    map(prop(SELECT))
   )(mods);
 
   const ducks = compose(
+    reducerPatch(name),
     map(injectTypeAction),
     map(prependNameType(name)),
     map(defaultType),
@@ -31,10 +35,10 @@ export default (name, mods) => {
   )(mods);
 
   return {
-    [NAME]          : name,
-    [INIT] : init,
-    [SELECT]        : select,
-    [DUCKS]         : ducks,
+    [NAME]   : name,
+    [INIT]   : init,
+    [SELECT] : select,
+    [DUCKS]  : ducks,
   };
 };
 
@@ -63,16 +67,12 @@ const selectorPatch = curry((n, sel) => {
   }
 });
 
-const reducerPatch = curry((n, red) => {
-  switch (typeof sel) {
-  case 'object':
-    return map(reducerPatch(n), red);
-  case 'function':
-    return (state, action) => ({
+const reducerPatch = curry((n, ducks) =>
+  map(duck => ({
+    ...duck,
+    [REDUCER]: (state, action) => ({
       ...state,
-      [state[n]]: red(state[n], action),
-    });
-  default:
-    return red;
-  }
-});
+      [n]: duck[REDUCER](state[n], action),
+    }),
+  }), ducks)
+);

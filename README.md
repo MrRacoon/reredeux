@@ -5,7 +5,7 @@ reredeux
 
 Generate redux state trees, selectors, and actions.
 
-**Under Active Development, Not for Production**
+**This API is Undergoing Active Development, DO NOT USE IN PRODUCTION**
 
 ### The Patterns
 
@@ -40,7 +40,7 @@ AsyncDuck :: {
 
 #### Module
 
-Use ducks to define "sections" of state called `modules`.
+Use ducks to define "sections" of state we'll call `modules` for now.
 
 ```Haskell
 Module :: {
@@ -61,58 +61,18 @@ The root of your tree should then get passed to the `rere` function, which is
 responsible for adding two things:
 
 * A map called `action`, that maps each duck's `name`, to it's `action` creator.
-* A `reducer` function, that calls the appropriate duck's `reducer` for the given `action` type.
+* A redux `reducer` function, that calls the appropriate duck's `reducer` for a given `action`.
 
 For convenience, there is a `reredeux` function that is equivalent to calling
-`(...args) => rere(deux(...args))`. So that you can remove the parens.
+`(...args) => rere(deux(...args))`. So that you can remove the extra parens.
 
 You should now have most of the parts you need to own and operate your very own
 modular redux store!
 
-### Example
+### TODO
 
-```javascript
-const counter = {
-  name: 'counter',
-  init: { counter: 0 },
-  select: {
-    value: state => state.counter,
-  },
-  ducks: [
-    {
-      name: 'increment',
-      action: payload => ({ payload }),
-      reducer: (s, { payload }) => ({
-        ...s,
-        counter: s.counter += 1,
-      }),
-    },
-    {
-      name: 'decrement',
-      action: payload => ({ payload }),
-      reducer: (s, { payload }) => ({
-        ...s,
-        counter: s.counter -= 1,
-      }),
-    },
-  ],
-};
-
-     // or: reredeux('app', [ counter ]);
-const app = rere(deux('app', [ counter ]));
-
-const store = createStore(app.reducer, app.init);
-
-const state = store.getState();
-
-store.dispatch(app.action.increment());
-store.dispatch(app.action.increment());
-store.dispatch(app.action.increment());
-store.dispatch(app.action.increment());
-
-console.log(app.select.counter.value(store.getState()));
-// 4
-```
+[ ] Let the API settle down into a coherent thought.
+[ ] Provide examples, and step by step documentation w/ opinions.
 
 ### License
 

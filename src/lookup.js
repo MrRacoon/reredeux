@@ -6,10 +6,12 @@ const fromTo = (key, value, ducks) => pipe(
   map(prop(value))
 )(ducks);
 
-export default (ducks) => ({
-  [NAME]        : fromTo(TYPE, NAME, ducks),
-  [TYPE]        : fromTo(NAME, TYPE, ducks),
-  [ACTION]      : fromTo(NAME, ACTION, ducks),
-  [REDUCER]     : fromTo(NAME, REDUCER, ducks),
-  reducerByType : fromTo(TYPE, REDUCER, ducks),
-});
+export default (ducks) => {
+  return {
+    [NAME]        : fromTo(TYPE, NAME, ducks),
+    [TYPE]        : fromTo(NAME, TYPE, ducks),
+    [ACTION]      : fromTo(NAME, ACTION, ducks),
+    [REDUCER]     : fromTo(NAME, REDUCER, ducks),
+    reducerByType : fromTo(TYPE, REDUCER, ducks),
+  };
+};

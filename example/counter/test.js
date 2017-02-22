@@ -2,8 +2,11 @@ import should from 'should';
 import { createStore } from 'redux';
 import reredeux from '../../src';
 import counter from './counter';
+import { log } from '../../test/utils';
 
-const app = reredeux('app', [ counter ]);
+const app = reredeux('counter', [ counter ]);
+
+log(app);
 
 const newStore = (init = app.init) =>
   createStore(app.reducer, init);
