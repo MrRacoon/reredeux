@@ -1,27 +1,57 @@
-import should from 'should';
+// import should from 'should';
 import { createStore } from 'redux';
-import reredeux, { LABELS } from '../src';
-const { INIT, REDUCER } = LABELS;
+import reredeux, { deux, LABELS } from '../src';
+const { INIT, ACTION, REDUCER } = LABELS;
 
 import todo from './todo';
+import counter from './counter';
+import phonebook from './phonebook';
 
-const app = reredeux('example', [ todo ]);
+const app = reredeux('example', [
+  counter,
+  todo,
+  deux('nest', [ phonebook ])
+]);
 let store;
 let state;
 
-console.log('app', app); // eslint-disable-line
-
-describe('example', () => {
+describe('app', () => {
   beforeEach(() => {
     store = createStore(app[REDUCER], app[INIT]);
     state = store.getState();
   });
-  describe('todo', () => {
-    it('has the correct init state', () => {
-      should.exist(app[INIT].example.todo);
-      app[INIT].example.todo.should.be.type('object');
-      state.example.todo
-        .should.be.eql(todo[INIT].todo);
+  describe(INIT, () => {
+    describe('example', () => {
+      describe('counter', () => {
+        it('eql to 0', () => {
+          state.example.counter
+            .should.be.eql(0);
+        });
+      });
+    });
+  });
+  describe(ACTION, () => {
+    it('increment', () => {
+      app[ACTION].increment()
+        .should.have.property('type');
+      app[ACTION].increment()
+        .should.have.property('payload');
+    });
+  });
+  describe(REDUCER, () => {
+    describe('counter', () => {
+      it('increment', () => {
+        store.dispatch(app[ACTION].increment());
+        state = store.getState();
+        state.example.counter
+          .should.be.eql(1);
+      });
+      it('decrement', () => {
+        store.dispatch(app[ACTION].decrement());
+        state = store.getState();
+        state.example.counter
+          .should.be.eql(-1);
+      });
     });
   });
 });
