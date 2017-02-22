@@ -1,5 +1,5 @@
 import { indexBy } from 'ramda';
-import { LABELS, tools } from '../../src';
+import { LABELS, tools } from '../src';
 
 const {
   NAME, INIT, SELECT, DUCKS,

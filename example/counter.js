@@ -1,6 +1,6 @@
 // There are 'opinions' that aim to extract all the boilerplate from typical
 // redux, duck typing.
-import { LABELS, tools } from '../../src';
+import { LABELS, tools } from '../src';
 
 const {
   INIT, SELECT, DUCKS,

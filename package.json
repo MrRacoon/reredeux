@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test:lint": "eslint ./**/*.js",
-    "test:examples": "mocha example/**/test.js",
+    "test:examples": "mocha example/test.js",
     "test:api": "mocha test/api.js",
-    "test": "run-s test:lint test:api"
+    "test": "run-s test:*"
   },
   "repository": {
     "type": "git",
