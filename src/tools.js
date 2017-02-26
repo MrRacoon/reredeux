@@ -63,21 +63,21 @@ export const expandDefers = (d) => {
       d[PROMISE](...args)
         .then(succ[ACTION], fail[ACTION])
         .then(dispatch),
-    [REDUCER]: reducer.async.defer(d[TYPE], identity),
+    [REDUCER]: reducer.async.defer(d[TYPE], d[REDUCER] || identity),
   };
   return [ defer, succ, fail ];
 };
 
 export const makeSuccess = (d) => ({
-  [NAME]: `${d[NAME]}Success`,
-  [TYPE]: `${d[TYPE]}/success`,
-  [ACTION]: d[THEN] || action.payload,
-  [REDUCER]: reducer.async.success(d[TYPE], d[REDUCER] || identity)
+  [NAME]    : `${d[NAME]}Success`,
+  [TYPE]    : `${d[TYPE] || d[NAME]}/success`,
+  [ACTION]  : d[THEN] || action.payload,
+  [REDUCER] : reducer.async.success(d[TYPE], d[REDUCER] || identity)
 });
 
 export const makeFailure = (d) => ({
-  [NAME]: `${d[NAME]}Failure`,
-  [TYPE]: `${d[TYPE]}/failure`,
-  [ACTION]: d[CATCH] || action.error,
-  [REDUCER]: reducer.async.failure(d[TYPE], d[REDUCER] || identity)
+  [NAME]    : `${d[NAME]}Failure`,
+  [TYPE]    : `${d[TYPE] || d[NAME]}/failure`,
+  [ACTION]  : d[CATCH] || action.error,
+  [REDUCER] : reducer.async.failure(d[TYPE], d[REDUCER] || identity)
 });

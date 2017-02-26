@@ -8,5 +8,5 @@ export default reredeux('example', [
   counter,
   deux('tasks', [
     todo,
-  ])
+  ]),
 ]);

@@ -28,6 +28,14 @@ describe('app', () => {
             .should.be.eql(0);
         });
       });
+      describe('nest', () => {
+        describe('phonebook', () => {
+          it('== []', () => {
+            state.example.nest.phonebook
+              .should.be.eql([]);
+          });
+        });
+      });
     });
   });
   describe(ACTION, () => {
@@ -37,12 +45,21 @@ describe('app', () => {
       app[ACTION].increment()
         .should.have.property('payload');
     });
+    it('decrement', () => {
+      app[ACTION].decrement()
+        .should.have.property('type');
+      app[ACTION].decrement()
+        .should.have.property('payload');
+    });
   });
   describe(REDUCER, () => {
     describe('counter', () => {
       it('increment', () => {
+        state = store.getState();
+        console.log('state', state); // eslint-disable-line
         store.dispatch(app[ACTION].increment());
         state = store.getState();
+        console.log('state', state); // eslint-disable-line
         state.example.counter
           .should.be.eql(1);
       });

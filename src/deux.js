@@ -1,5 +1,5 @@
 import {
-  __, assoc, chain, compose, curry, map, mergeAll, prop,
+  __, assoc, chain, compose, curry, head, map, mergeAll, prop,
 } from 'ramda';
 
 import { expandDefers } from './tools';
@@ -12,11 +12,21 @@ import {
 
 export default (name, mods) => {
 
-  const init = compose(
-    assoc(name, __, {}),
-    mergeAll,
-    map(prop(INIT))
-  )(mods);
+  let init;
+  if (mods.length === 1) {
+    init = compose(
+      assoc(name, __, {}),
+      head,
+      map(prop(INIT))
+    )(mods);
+  } else {
+    init = compose(
+      assoc(name, __, {}),
+      mergeAll,
+      map(prop(INIT))
+    )(mods);
+  }
+
 
   const select = compose(
     selectorPatch(name),
@@ -29,7 +39,6 @@ export default (name, mods) => {
     reducerPatch(name),
     map(injectTypeAction),
     map(prependNameType(name)),
-    map(defaultType),
     chain(expandDefers),
     chain(prop(DUCKS))
   )(mods);
@@ -51,13 +60,8 @@ const injectTypeAction = (obj) => obj[PROMISE]
 
 const prependNameType = curry((n, obj) => ({
   ...obj,
-  [TYPE]: `${n}/${obj[TYPE]}`,
+  [TYPE]: `${n}/${obj[TYPE] || obj[NAME]}`,
 }));
-
-const defaultType = (obj) => ({
-  ...obj,
-  [TYPE]: obj[TYPE] || obj[NAME],
-});
 
 const selectorPatch = curry((n, sel) => {
   switch (typeof sel) {

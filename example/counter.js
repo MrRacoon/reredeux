@@ -1,6 +1,6 @@
 // There are 'opinions' that aim to extract all the boilerplate from typical
 // redux, duck typing.
-import { LABELS, tools } from '../src';
+import { LABELS, tools, deux } from '../src';
 
 const {
   INIT, SELECT, DUCKS,
@@ -10,58 +10,41 @@ const {
 const { action } = tools;
 
 // Initial state
-const COUNTER = 'counter';
-const init = {
-  [COUNTER]: 0
-};
+const init = 0;
 
 // Primitive selectors
 const select = {};
-select.value = s => s[COUNTER];
-select.succ  = s => s[COUNTER] + 1;
-select.pred  = s => s[COUNTER] - 1;
+select.value = s => s;
+select.succ  = s => s + 1;
+select.pred  = s => s - 1;
 
 // Transforms
 const increment = {
-  [NAME]: 'increment',
-  [ACTION]: action.payload,
-  [REDUCER]: (s) => ({
-    ...s,
-    [COUNTER]: select.succ(s),
-  }),
+  [NAME]    : 'increment',
+  [ACTION]  : action.payload,
+  [REDUCER] : (s) => select.succ(s),
 };
 
 const decrement = {
-  [NAME]: 'decrement',
-  [ACTION]: action.payload,
-  [REDUCER]: (s) => ({
-    ...s,
-    [COUNTER]: select.pred(s),
-  }),
+  [NAME]    : 'decrement',
+  [ACTION]  : action.payload,
+  [REDUCER] : (s) => select.pred(s),
 };
 
 const set = {
-  [NAME]: 'set',
-  [ACTION]: action.payload,
-  [REDUCER]: (s, { payload }) => ({
-    ...s,
-    [COUNTER]: payload,
-  }),
+  [NAME]    : 'set',
+  [ACTION]  : action.payload,
+  [REDUCER] : (s, { payload }) => payload,
 };
 
 const reset = {
-  [NAME]: 'reset',
-  [ACTION]: () => action.payload(init),
-  [REDUCER]: (s, { payload }) => ({
-    ...s,
-    ...payload,
-  }),
+  [NAME]    : 'reset',
+  [ACTION]  : () => action.payload(init),
+  [REDUCER] : (s, { payload }) => payload,
 };
 
 // Every module must export these four things
-export default {
-  // The name of the module, for scoping purposes
-  [NAME]: COUNTER,
+export default deux( 'counter', [{
   // Thei initial state, which will be passed to redux.
   [INIT]: init,
   // Primitive selectors, that consumers of the module can use.
@@ -69,4 +52,4 @@ export default {
   // Ducks, that describe the state transforms, which will later be used to
   // generate actions and reducers.
   [DUCKS]: [ increment, decrement, set, reset ],
-};
+}]);
