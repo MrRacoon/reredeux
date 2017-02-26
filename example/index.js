@@ -6,7 +6,5 @@ import phonebook from './phonebook';
 export default reredeux('example', [
   phonebook,
   counter,
-  deux('tasks', [
-    todo,
-  ]),
+  deux('tasks', [ todo ]),
 ]);
