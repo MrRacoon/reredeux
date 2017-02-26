@@ -19,7 +19,7 @@ Duck :: {
   -- Identification in action map
   name :: String
   -- Redux Action creator, that returns a promise
-  action :: (Payload | Error) -> { type, Payload | Error }
+  action :: (payload | error) -> { type, payload | error }
   -- Redux reducer function
   reducer :: (State, Action) -> State
 }
@@ -38,13 +38,12 @@ AsyncDuck :: {
 }
 ```
 
-#### Module
+#### Modules
 
-Use ducks to define "sections" of state we'll call `modules` for now.
+Use ducks to define sections of state we'll call `modules` for now.
 
 ```Haskell
 Module :: {
-  name   :: String,              -- Name of the module
   init   :: State,               -- The initial state
   select :: { State => a },      -- Module specific selectors
   ducks, :: [ Duck | AsyncDuck ] -- List of Ducks
