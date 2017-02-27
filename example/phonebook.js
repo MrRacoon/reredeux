@@ -18,9 +18,9 @@ select.nameToNumber = state => indexBy(prop('name'), select.value(state));
 select.numberToName = state => indexBy(prop('number'), select.value(state));
 
 const addEntry = {
-  [NAME]: 'addEntry',
-  [ACTION]: tools.action.payload,
-  [REDUCER]: (state, { payload }) =>
+  [NAME]    : 'addEntry',
+  [ACTION]  : tools.action.payload,
+  [REDUCER] : (state, { payload }) =>
     select.value(state).concat([payload]),
 };
 

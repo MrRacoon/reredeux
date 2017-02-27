@@ -6,6 +6,11 @@ import {
   PROMISE, THEN, CATCH,
 } from './labels';
 
+const util = require('util');
+export const log = (obj) => {
+  console.log(util.inspect(obj, false, null)); // eslint-disable-line
+};
+
 export const action = {
   empty   : () => ({}),
   error   : (error) => ({ error }),

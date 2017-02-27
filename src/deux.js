@@ -27,7 +27,6 @@ export default (name, mods) => {
     )(mods);
   }
 
-
   const select = compose(
     selectorPatch(name),
     assoc(name, __, {}),
@@ -55,7 +54,8 @@ const injectTypeAction = (obj) => obj[PROMISE]
   ? obj
   : {
     ...obj,
-    [ACTION]: (...args) => assoc(TYPE, obj[TYPE], obj[ACTION](...args)),
+    [ACTION]: (...args) =>
+      assoc(TYPE, obj[TYPE], obj[ACTION](...args)),
   };
 
 const prependNameType = curry((n, obj) => ({

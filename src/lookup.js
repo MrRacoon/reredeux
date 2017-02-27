@@ -1,4 +1,7 @@
-import { indexBy, map, pipe, prop } from 'ramda';
+import {
+  assocPath, indexBy, map, pipe, prop, reduce, split,
+} from 'ramda';
+
 import { NAME, TYPE, ACTION, REDUCER } from './labels';
 
 const fromTo = (key, value, ducks) => pipe(
@@ -13,5 +16,10 @@ export default (ducks) => {
     [ACTION]      : fromTo(NAME, ACTION, ducks),
     [REDUCER]     : fromTo(NAME, REDUCER, ducks),
     reducerByType : fromTo(TYPE, REDUCER, ducks),
+    actionByType  : reduce(
+      (acc, d) => assocPath(split('/', d[TYPE]), d[ACTION], acc),
+      {},
+      ducks
+    ),
   };
 };

@@ -10,5 +10,6 @@ export default (deux) => {
     ...deux,
     [ACTION]: lookup(deux[DUCKS])[ACTION],
     [REDUCER]: reducer(deux),
+    actions: lookup(deux[DUCKS]).actionByType
   };
 };
