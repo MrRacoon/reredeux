@@ -1,10 +1,10 @@
-// There are 'opinions' that aim to extract all the boilerplate from typical
-// redux, duck typing.
-import { LABELS, tools, deux } from '../src';
+import { add, always, compose, pathOr } from 'ramda';
+import { LABELS, tools, deux } from '../dist';
 
 const {
   INIT, SELECT, DUCKS,
   NAME, ACTION, REDUCER,
+  VALUE
 } = LABELS;
 
 const { action } = tools;
@@ -14,33 +14,33 @@ const init = 0;
 
 // Primitive selectors
 const select = {};
-select.value = s => s;
-select.succ  = s => s + 1;
-select.pred  = s => s - 1;
+select[VALUE] = s => s;
+select.succ   = compose(add(1), select[VALUE]);
+select.pred   = compose(add(-1), select[VALUE]);
 
 // Transforms
 const increment = {
   [NAME]    : 'increment',
   [ACTION]  : action.payload,
-  [REDUCER] : (s) => select.succ(s),
+  [REDUCER] : select.succ,
 };
 
 const decrement = {
   [NAME]    : 'decrement',
   [ACTION]  : action.payload,
-  [REDUCER] : (s) => select.pred(s),
+  [REDUCER] : select.pred,
 };
 
 const set = {
   [NAME]    : 'set',
   [ACTION]  : action.payload,
-  [REDUCER] : (s, { payload }) => payload,
+  [REDUCER] : s => pathOr(s, 'payload'),
 };
 
 const reset = {
   [NAME]    : 'reset',
-  [ACTION]  : () => action.payload(init),
-  [REDUCER] : (s, { payload }) => payload,
+  [ACTION]  : action.empty,
+  [REDUCER] : always(init),
 };
 
 // Every module must export these four things

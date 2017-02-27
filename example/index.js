@@ -1,4 +1,4 @@
-import reredeux, { deux } from '../src';
+import reredeux, { deux } from '../dist';
 import counter from './counter';
 import todo from './todo';
 import phonebook from './phonebook';

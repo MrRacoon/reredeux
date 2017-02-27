@@ -1,5 +1,5 @@
 import { indexBy, memoize, prop } from 'ramda';
-import { LABELS, tools, deux } from '../src';
+import { LABELS, tools, deux } from '../dist';
 
 const {
   NAME, INIT, SELECT, DUCKS,

@@ -1,7 +1,7 @@
 // import should from 'should';
 import { createStore } from 'redux';
 import reredeux, { deux, LABELS } from '../src';
-const { INIT, SELECT, ACTION, REDUCER } = LABELS;
+const { INIT, SELECT, ACTION, REDUCER, VALUE } = LABELS;
 
 import todo from './todo';
 import counter from './counter';
@@ -56,9 +56,9 @@ describe('app', () => {
   describe(SELECT, () => {
     describe('example', () => {
       describe('counter', () => {
-        describe('value', () => {
+        describe(VALUE, () => {
           it('== 0', () => {
-            app[SELECT].example.counter.value(state)
+            app[SELECT].example.counter[VALUE](state)
               .should.be.eql(0);
           });
         });
@@ -166,7 +166,8 @@ describe('app', () => {
       it('increment', () => {
         store.dispatch(app[ACTION].increment());
         state = store.getState();
-        state.example.counter.should.be.eql(1);
+        state.example.counter
+          .should.be.eql(1);
       });
       it('decrement', () => {
         store.dispatch(app[ACTION].decrement());

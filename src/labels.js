@@ -17,8 +17,12 @@ export const CATCH   = 'catch';
 // Common state
 export const ASYNC   = 'async';
 
+// Selectors
+export const VALUE   = '_';
+
 export default {
   INIT, SELECT, DUCKS,
   NAME, TYPE, ACTION, REDUCER,
-  PROMISE, THEN, CATCH
+  PROMISE, THEN, CATCH,
+  VALUE,
 };

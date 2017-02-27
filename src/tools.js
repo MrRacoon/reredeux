@@ -1,4 +1,4 @@
-import { assocPath, compose, identity, merge, propOr } from 'ramda';
+import { assocPath, curry, identity, merge, propOr } from 'ramda';
 
 import {
   NAME, TYPE, ACTION, REDUCER,
@@ -12,10 +12,10 @@ export const log = (obj) => {
 };
 
 export const action = {
-  empty   : () => ({}),
-  error   : (error) => ({ error }),
+  empty   : ()        => ({}),
+  error   : (error)   => ({ error }),
   payload : (payload) => ({ payload }),
-  type    : (type) => ({ type }),
+  type    : (type)    => ({ type }),
 };
 
 export const thunk = {
@@ -43,17 +43,17 @@ export const thunk = {
   },
 };
 
+const setAsyncFlag = curry((b, n, fn) =>
+  (s,a) => assocPath([ASYNC, n], b, (fn || identity)(s, a))
+);
+
 export const reducer = {
-  merge: compose(merge, propOr({}, 'payload')),
-  async: {
-    defer: (n, fn) =>
-      (s,a) => assocPath([ASYNC, n], true, fn(s, a)),
-
-    success: (n, fn) =>
-      (s,a) => assocPath([ASYNC, n], false, fn(s, a)),
-
-    failure: (n, fn) =>
-      (s,a) => assocPath([ASYNC, n], false, fn(s, a)),
+  set   : (s, a) => propOr({}, 'payload')(a),
+  merge : (s, a) => merge(s, propOr({}, 'payload', a)),
+  async : {
+    defer   : setAsyncFlag(true),
+    success : setAsyncFlag(false),
+    failure : setAsyncFlag(false),
   },
 };
 
@@ -63,12 +63,12 @@ export const expandDefers = (d) => {
   const fail  = makeFailure(d);
   const defer = {
     [NAME]: d[NAME],
-    [TYPE]: d[TYPE],
+    [TYPE]: d[TYPE] || d[NAME],
     [ACTION]: (...args) => (dispatch) =>
       d[PROMISE](...args)
         .then(succ[ACTION], fail[ACTION])
         .then(dispatch),
-    [REDUCER]: reducer.async.defer(d[TYPE], d[REDUCER] || identity),
+    [REDUCER]: reducer.async.defer(d[TYPE], d[REDUCER]),
   };
   return [ defer, succ, fail ];
 };
@@ -77,12 +77,12 @@ export const makeSuccess = (d) => ({
   [NAME]    : `${d[NAME]}Success`,
   [TYPE]    : `${d[TYPE] || d[NAME]}/success`,
   [ACTION]  : d[THEN] || action.payload,
-  [REDUCER] : reducer.async.success(d[TYPE], d[REDUCER] || identity)
+  [REDUCER] : reducer.async.success(d[TYPE], d[REDUCER])
 });
 
 export const makeFailure = (d) => ({
   [NAME]    : `${d[NAME]}Failure`,
   [TYPE]    : `${d[TYPE] || d[NAME]}/failure`,
   [ACTION]  : d[CATCH] || action.error,
-  [REDUCER] : reducer.async.failure(d[TYPE], d[REDUCER] || identity)
+  [REDUCER] : reducer.async.failure(d[TYPE], d[REDUCER])
 });

@@ -1,5 +1,5 @@
 import {
-  __, assoc, chain, compose, curry, head, map, mergeAll, prop,
+  __, assoc, chain, compose, curry, head, identity, map, merge, mergeAll, prop,
 } from 'ramda';
 
 import { expandDefers } from './tools';
@@ -7,13 +7,18 @@ import { expandDefers } from './tools';
 import {
   NAME, INIT, SELECT, DUCKS,
   TYPE, ACTION, REDUCER,
-  PROMISE
+  PROMISE, VALUE
 } from './labels';
 
 export default (name, mods) => {
 
   let init;
-  if (mods.length === 1) {
+  if (!Array.isArray(mods)) {
+    init = compose(
+      assoc(name, __, {}),
+      prop(INIT)
+    )(mods);
+  } else if (mods.length === 1) {
     init = compose(
       assoc(name, __, {}),
       head,
@@ -30,6 +35,7 @@ export default (name, mods) => {
   const select = compose(
     selectorPatch(name),
     assoc(name, __, {}),
+    addValueSelector,
     mergeAll,
     map(prop(SELECT))
   )(mods);
@@ -62,6 +68,10 @@ const prependNameType = curry((n, obj) => ({
   ...obj,
   [TYPE]: `${n}/${obj[TYPE] || obj[NAME]}`,
 }));
+
+const addValueSelector = merge({
+  [VALUE]: identity,
+});
 
 const selectorPatch = curry((n, sel) => {
   switch (typeof sel) {

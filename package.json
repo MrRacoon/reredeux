@@ -4,10 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test:lint": "eslint ./**/*.js",
+    "build:src": "babel --out-dir=dist --sorce-root=src src",
+    "build:example": "babel --out-dir=example-dist --sorce-root=example example",
+    "build": "run-s build:*",
+    "example": "node -i ./example-dist/index.js",
+
+    "lint:src": "eslint ./src/**/*.js",
+    "lint:test": "eslint ./test/**/*.js",
+    "lint": "run-s list:*",
+
     "test:examples": "mocha example/test.js",
     "test:api": "mocha test/api.js",
-    "test": "run-s test:*"
+    "test": "run-s lint:* build:* test:*"
   },
   "repository": {
     "type": "git",

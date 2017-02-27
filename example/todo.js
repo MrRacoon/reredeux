@@ -1,5 +1,5 @@
 import { filter, map, prop, propEq } from 'ramda';
-import { LABELS, deux } from '../src';
+import { LABELS, deux } from '../dist';
 
 const {
   NAME, INIT, SELECT, DUCKS,
