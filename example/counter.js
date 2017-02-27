@@ -1,46 +1,41 @@
-import { add, always, compose, pathOr } from 'ramda';
+import { add, always, compose, identity } from 'ramda';
 import { LABELS, tools, deux } from '../dist';
 
-const {
-  INIT, SELECT, DUCKS,
-  NAME, ACTION, REDUCER,
-  VALUE
-} = LABELS;
-
-const { action } = tools;
+const { INIT, SELECT, DUCKS, NAME, ACTION, REDUCER, VALUE } = LABELS;
+const { action, reducer } = tools;
 
 // Initial state
 const init = 0;
 
 // Primitive selectors
 const select = {};
-select[VALUE] = s => s;
+select[VALUE] = identity,
 select.succ   = compose(add(1), select[VALUE]);
 select.pred   = compose(add(-1), select[VALUE]);
 
 // Transforms
 const increment = {
-  [NAME]    : 'increment',
-  [ACTION]  : action.payload,
-  [REDUCER] : select.succ,
+  [NAME]: 'increment',
+  [ACTION]: action.empty,
+  [REDUCER]: select.succ,
 };
 
 const decrement = {
-  [NAME]    : 'decrement',
-  [ACTION]  : action.payload,
-  [REDUCER] : select.pred,
+  [NAME]: 'decrement',
+  [ACTION]: action.empty,
+  [REDUCER]: select.pred,
 };
 
 const set = {
-  [NAME]    : 'set',
-  [ACTION]  : action.payload,
-  [REDUCER] : s => pathOr(s, 'payload'),
+  [NAME]: 'set',
+  [ACTION]: action.payload,
+  [REDUCER]: reducer.payload,
 };
 
 const reset = {
-  [NAME]    : 'reset',
-  [ACTION]  : action.empty,
-  [REDUCER] : always(init),
+  [NAME]: 'reset',
+  [ACTION]: action.empty,
+  [REDUCER]: always(init),
 };
 
 // Every module must export these four things

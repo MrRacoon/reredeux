@@ -15,6 +15,10 @@ export const THEN    = 'then';
 export const CATCH   = 'catch';
 
 // Common state
+export const PAYLOAD = 'payload';
+export const ERROR   = 'error';
+
+// Common state
 export const ASYNC   = 'async';
 
 // Selectors

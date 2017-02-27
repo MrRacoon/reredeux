@@ -152,13 +152,13 @@ describe('app', () => {
       app[ACTION].increment()
         .should.have.property('type');
       app[ACTION].increment()
-        .should.have.property('payload');
+        .should.not.have.property('payload');
     });
     it('decrement', () => {
       app[ACTION].decrement()
         .should.have.property('type');
       app[ACTION].decrement()
-        .should.have.property('payload');
+        .should.not.have.property('payload');
     });
   });
   describe(REDUCER, () => {

@@ -87,10 +87,13 @@ var setAsyncFlag = (0, _ramda.curry)(function (b, n, fn) {
 
 var reducer = exports.reducer = {
   set: function set(s, a) {
-    return (0, _ramda.propOr)({}, 'payload')(a);
+    return (0, _ramda.propOr)({}, _labels.PAYLOAD)(a);
   },
   merge: function merge(s, a) {
-    return (0, _ramda.merge)(s, (0, _ramda.propOr)({}, 'payload', a));
+    return (0, _ramda.merge)(s, (0, _ramda.propOr)({}, _labels.PAYLOAD, a));
+  },
+  payload: function payload(s, a) {
+    return (0, _ramda.propOr)(s, _labels.PAYLOAD, a);
   },
   async: {
     defer: setAsyncFlag(true),

@@ -16,6 +16,9 @@ var PROMISE = exports.PROMISE = 'promise';
 var THEN = exports.THEN = 'then';
 var CATCH = exports.CATCH = 'catch';
 
+var PAYLOAD = exports.PAYLOAD = 'payload';
+var ERROR = exports.ERROR = 'error';
+
 var ASYNC = exports.ASYNC = 'async';
 
 var VALUE = exports.VALUE = '_';

@@ -4,6 +4,7 @@ import {
   NAME, TYPE, ACTION, REDUCER,
   ASYNC,
   PROMISE, THEN, CATCH,
+  PAYLOAD,
 } from './labels';
 
 const util = require('util');
@@ -48,8 +49,9 @@ const setAsyncFlag = curry((b, n, fn) =>
 );
 
 export const reducer = {
-  set   : (s, a) => propOr({}, 'payload')(a),
-  merge : (s, a) => merge(s, propOr({}, 'payload', a)),
+  set     : (s, a) => propOr({}, PAYLOAD)(a),
+  merge   : (s, a) => merge(s, propOr({}, PAYLOAD, a)),
+  payload : (s, a) => propOr(s, PAYLOAD, a),
   async : {
     defer   : setAsyncFlag(true),
     success : setAsyncFlag(false),
