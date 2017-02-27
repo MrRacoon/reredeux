@@ -1,7 +1,7 @@
 {
   "name": "reredeux",
   "version": "0.1.0",
-  "description": "",
+  "description": "Build nested state structures with ease",
   "main": "index.js",
   "scripts": {
     "build:src": "babel --out-dir=dist --sorce-root=src src",

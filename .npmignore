@@ -1,4 +1,6 @@
+dist/
 example/
+example-dist/
 test/
 .eslint.yml
 .travis.yml
