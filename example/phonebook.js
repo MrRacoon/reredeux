@@ -1,4 +1,4 @@
-import { indexBy, prop } from 'ramda';
+import { indexBy, memoize, prop } from 'ramda';
 import { LABELS, tools, deux } from '../src';
 
 const {
@@ -13,9 +13,15 @@ const init = [
 ];
 
 const select = {};
-select.value        = state => state;
-select.nameToNumber = state => indexBy(prop('name'), select.value(state));
-select.numberToName = state => indexBy(prop('number'), select.value(state));
+select.value        = memoize(state => state);
+select.nameToNumber = memoize(state => indexBy(
+  prop('name'),
+  select.value(state)
+));
+select.numberToName = memoize(state => indexBy(
+  prop('number'),
+  select.value(state)
+));
 
 const addEntry = {
   [NAME]    : 'addEntry',
