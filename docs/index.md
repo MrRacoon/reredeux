@@ -68,7 +68,7 @@ const module =
   deux('app', [
     deux('tasks', [
       toDeuxList,
-    ])
+    ]),
     deux('cooking', [
       fonDeuxRecipes
     ])
@@ -83,36 +83,25 @@ Once we have a state declared the way we want, we'll call `rere`
 on it to extract everything we'll need to plug it in to a view.
 
 ```javascript
-const module = deux('counter', [
-  {
-    init: 0,
-    select: { val: s => s },
-    ducks: [ increment, decrement ]
-  }
-]);
+const module = deux('counter', [ ... ]);
+const { actions, reducer, init, select } = rere(module);
 
-const app = rere(module);
+const store = createStore(reducer, init);
 
-const store = createStore(app.reducer, app.init);
+store.getState(); // { counter: 0 }
 
-console.log(store.getState()); // { counter: 0 }
-
-// all actions can be found in `app.actions`. they are all organized
-// according to the structure of your state tree.
-store.dispatch(store.actions.counter.increment());
-store.dispatch(store.actions.counter.increment());
+store.dispatch(actions.counter.increment());
+store.dispatch(actions.counter.increment());
 
 store.getState(); // { counter: 2 }
 
-store.dispatch(store.actions.counter.decrement());
+store.dispatch(actions.counter.decrement());
 
 store.getState(); // { counter: 1 }
 
-// our selectors can all be found in `app.select`. they are all organized
-// according to the structure of your state tree.
-app.select.counter.val(store.getState()) // 1
+select.counter.val(store.getState()) // 1
 
 // There is a convinience selector at each level of the state tree, know as
 // `_`. This is a special selector that returns all the state at that level.
-app.select.counter._(store.getState()) // 1
+select.counter._(store.getState()) // 1
 ```
