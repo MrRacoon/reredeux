@@ -1,10 +1,11 @@
-import should from 'should';
-import { createStore } from 'redux';
 import { compose, groupBy, length, map, prop } from 'ramda';
+import { createStore } from 'redux';
+import should from 'should';
 
 import { testSelector, log } from './utils';
+
 import state from '../example';
-import { LABELS } from '../src';
+import { LABELS } from '../dist';
 
 const {
   INIT, SELECT, DUCKS,
