@@ -15,3 +15,8 @@ github_username:  MrRacoon
 
 # Build settings
 markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+highlighter: rougue
