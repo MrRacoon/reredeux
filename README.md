@@ -7,8 +7,6 @@ Generate redux state trees, selectors, and actions.
 
 **This API is Undergoing Active Development, DO NOT USE IN PRODUCTION**
 
----
-
 ## The Patterns
 
 ### Duck
@@ -51,8 +49,6 @@ the state.
 #### ducks :: [ duck | asyncDuck ]
 
 All of your ducks, all in a list.
-
----
 
 ## Usage
 
