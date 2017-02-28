@@ -7,6 +7,10 @@ Generate redux state trees, selectors, and actions.
 
 **This API is Undergoing Active Development, DO NOT USE IN PRODUCTION**
 
+## Tutorial
+
+can be found [here](https://mrracoon.github.io/reredeux/)
+
 ## The Patterns
 
 ### Duck
