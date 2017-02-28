@@ -77,7 +77,7 @@ const module =
 
 <hr>
 <br>
-### rere
+### Rere
 
 Once we have a state declared the way we want, we'll call `rere`
 on it to extract everything we'll need to plug it in to a view.
