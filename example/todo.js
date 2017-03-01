@@ -41,8 +41,10 @@ const loadTodos = {
   },
 };
 
-export default deux('todo', [{
+export const todos = {
   [INIT]   : init,
   [SELECT] : select,
   [DUCKS]  : [ addTodo, loadTodos ],
-}]);
+};
+
+export default deux('todo', [todos]);

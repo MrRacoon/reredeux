@@ -38,8 +38,7 @@ const reset = {
   [REDUCER]: always(init),
 };
 
-// Every module must export these four things
-export default deux( 'counter', [{
+export const counter = {
   // Thei initial state, which will be passed to redux.
   [INIT]: init,
   // Primitive selectors, that consumers of the module can use.
@@ -47,4 +46,7 @@ export default deux( 'counter', [{
   // Ducks, that describe the state transforms, which will later be used to
   // generate actions and reducers.
   [DUCKS]: [ increment, decrement, set, reset ],
-}]);
+};
+
+// Every module must export these four things
+export default deux('counter', [counter]);

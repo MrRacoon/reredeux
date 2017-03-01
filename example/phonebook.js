@@ -30,8 +30,10 @@ const addEntry = {
     select.value(state).concat([payload]),
 };
 
-export default deux(PB, [{
+export const phonebook = {
   [INIT]   : init,
   [SELECT] : select,
   [DUCKS]  : [ addEntry ],
-}]);
+};
+
+export default deux(PB, [phonebook]);

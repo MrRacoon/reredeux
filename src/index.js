@@ -4,6 +4,7 @@ import lookup from './lookup';
 import * as tools from './tools';
 import LABELS from './labels';
 import rere from './rere';
+import redeux from './redeux';
 import reredeux from './reredeux';
 
 export {
@@ -11,6 +12,7 @@ export {
 
   rere,
   deux,
+  redeux,
   reredeux,
 
   lookup,
