@@ -4,14 +4,33 @@ layout: default
 
 <div class="home">
 
-  <h3>Ducks</h3>
+  <h2>Ducks</h2>
 
   <p> Ducks are objects that describe redux duck-typed actions. </p>
 
+  <p>
+    <code>Ducks</code> describe state transitions. They should look familiar if
+    you've used duck-typing in redux. The goal is to isolate all code for every
+    action in a single place. Making it simple to maintain, and easy to
+    manipulate in our state tree.
+  </p>
+
   {% highlight javascript %}
     const duck = {
+
+      // This is typically what you would use for the name of your action
+      // creator. It will be used for constructing the `type` field (done
+      // automatically); and as the key in a map that will hold all of the
+      // dispatchable actions, later on.
       name: 'increment',
+
+      // Your action creator
       action: payload => ({ payload }),
+
+      // Your transducer,
+      // You've seen them as the case blocks within switch statements.  This
+      // function only ever gets called if the action we're defining is actually
+      // dispatched.
       reducer: (s, { payload }) =>
         payload
           ? s + payload
@@ -24,43 +43,30 @@ layout: default
   <h3>Modules</h3>
 
   <p>
-    Ducks get organized into modules. Each module needs an initial state, and a
-    few selectors for extracting info from state. To construct a module, we call
-    <code>deux</code> on it. The first parameter will be the name of the module,
-    while the second will be an object with the following properties:
+    Ducks get organized into modules.
+    Each module needs an initial state.
+    Few selectors for selecting info from that state. To construct a module, we
+    call <code>deux</code> on it. The first parameter will be the name of the
+    module, while the second will be an object with the following properties:
   </p>
-
-  <ul>
-    <li>init</li>
-    <li>select</li>
-    <li>ducks</li>
-  </ul>
 
   {% highlight javascript %}
     import { deux } from 'reredeux';
 
-    const increment = {
-      name: 'increment',
-      action: payload => ({ payload }),
-      reducer: (s, { payload }) =>
-        payload
-          ? s + payload
-          : s + 1
-    }
-
-    const decrement = {
-      name: 'decrement',
-      action: payload => ({ payload }),
-      reducer: (s, { payload }) =>
-        payload
-          ? s - payload
-          : s - 1
-    }
+    const increment = { ... };
+    const decrement = { ... };
 
     const module = deux('counter', [
       {
+        // The initial state should reflect the state that your ducks will be
+        // manipulating.
         init: 0,
+
+        // A map of selectors, for extracting state from the above contract.
         select: { val: s => s },
+
+        // The list of all of the ducks that interact at this level with the
+        // state.
         ducks: [ increment, decrement ]
       }
     ]);
@@ -94,44 +100,40 @@ layout: default
 
   <p>
     Once we have a state declared the way we want, we'll call <code>rere</code>
-    on it to extract everything we'll need to plug it in to a view.
+    on it to extract everything we'll need to plug in to our redux store.
   </p>
 
   {% highlight javascript %}
-    const module = deux('counter', [
-      {
+    const { reducer, init, actions, select } =
+      rere(deux('counter', [{
         init: 0,
         select: { val: s => s },
         ducks: [ increment, decrement ]
-      }
-    ]);
+      }]));
 
-    const app = rere(module);
-
-    const store = createStore(app.reducer, app.init);
-
-    console.log(store.getState()); // { counter: 0 }
+    const store = createStore(reducer, init);
+    store.getState();
+    // { counter: 0 }
 
     // all actions can be found in `app.actions`. they are all organized
     // according to the structure of your state tree.
-    store.dispatch(store.actions.counter.increment());
-    store.dispatch(store.actions.counter.increment());
-
-    store.getState(); // { counter: 2 }
-
-    store.dispatch(store.actions.counter.decrement());
-
-    store.getState(); // { counter: 1 }
+    store.dispatch(actions.counter.increment());
+    store.dispatch(actions.counter.increment());
+    store.getState();
+    // { counter: 2 }
+    store.dispatch(actions.counter.decrement());
+    store.getState();
+    // { counter: 1 }
 
     // our selectors can all be found in `app.select`. they are all organized
     // according to the structure of your state tree.
-    app.select.counter.val(store.getState()) // 1
+    select.counter.val(store.getState())
+    // 1
 
     // There is a convinience selector at each level of the state tree, know as
     // `_`. This is a special selector that returns all the state at that level.
-    app.select.counter._(store.getState()) // 1
-
+    select.counter._(store.getState())
+    // 1
   {% endhighlight %}
-
 
 </div>
