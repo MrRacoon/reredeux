@@ -4,9 +4,10 @@
   "description": "Build nested redux state with ease",
   "main": "index.js",
   "scripts": {
+    "clean": "rm -rf ./dist",
     "build:src": "babel --out-dir=dist --sorce-root=src src",
     "build:example": "babel --out-dir=example-dist --sorce-root=example example",
-    "build": "run-s build:*",
+    "build": "run-s clean build:*",
     "example": "node -i ./example-dist/index.js",
     "lint:src": "eslint ./src/**/*.js",
     "lint:test": "eslint ./test/**/*.js",
