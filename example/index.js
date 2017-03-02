@@ -3,9 +3,8 @@ import { counter } from './counter';
 import { todo } from './todo';
 import { phonebook } from './phonebook';
 
-const app = {
-  name: 'example',
-  ...rere(redeux({
+const app = rere({
+  ...redeux({
     example: {
       phonebook,
       counter,
@@ -13,8 +12,8 @@ const app = {
         todo
       },
     },
-  })),
-};
+  }),
+});
 
 tools.log(app);
 

@@ -15,13 +15,7 @@ const {
 
 let store = createStore(state[REDUCER], state[INIT]);
 
-describe(state[NAME], () => {
-  describe(NAME, () => {
-    it('exists', () => {
-      should(state[NAME]).toBeDefined;
-      state[NAME].should.be.instanceOf(String);
-    });
-  });
+describe('app', () => {
   describe(INIT, () => {
     it('exists', () => {
       should(state[INIT]).toBeDefined;

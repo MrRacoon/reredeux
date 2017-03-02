@@ -23,6 +23,7 @@ export const ASYNC   = 'async';
 
 // Selectors
 export const VALUE   = '_';
+export const BOTTOM  = '_';
 
 export default {
   INIT, SELECT, DUCKS,

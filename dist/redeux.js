@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.patchAction = undefined;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -34,7 +35,7 @@ var redeux = function redeux(obj) {
 
     var cur = redeux(value);
 
-    return _ref3 = {}, _defineProperty(_ref3, _labels.INIT, (0, _ramda.compose)((0, _ramda.assoc)(name, cur[_labels.INIT]))(acc[_labels.INIT])), _defineProperty(_ref3, _labels.SELECT, _extends({}, acc[_labels.SELECT], _defineProperty({}, name, _extends(_defineProperty({}, _labels.VALUE, (0, _ramda.prop)(name)), selectorPatch(name, cur[_labels.SELECT]))))), _defineProperty(_ref3, _labels.DUCKS, (0, _ramda.compose)((0, _ramda.map)(patchReducer(name)), (0, _ramda.map)(addType(name)), (0, _ramda.concat)(cur[_labels.DUCKS]))(acc[_labels.DUCKS])), _ref3;
+    return _ref3 = {}, _defineProperty(_ref3, _labels.NAME, name), _defineProperty(_ref3, _labels.INIT, _extends({}, acc[_labels.INIT], _defineProperty({}, name, cur[_labels.INIT]))), _defineProperty(_ref3, _labels.SELECT, _extends({}, acc[_labels.SELECT], _defineProperty({}, name, _extends(_defineProperty({}, _labels.BOTTOM, (0, _ramda.prop)(name)), selectorPatch(name, cur[_labels.SELECT]))))), _defineProperty(_ref3, _labels.DUCKS, (0, _ramda.compose)((0, _ramda.map)(patchAction(name)), (0, _ramda.map)(patchReducer(name)), (0, _ramda.map)(addType(name)), (0, _ramda.concat)(cur[_labels.DUCKS]))(acc[_labels.DUCKS])), _ref3;
   }, empty, (0, _ramda.toPairs)(obj));
 };
 
@@ -63,6 +64,13 @@ var patchSelect = (0, _ramda.curry)(function (name, sel) {
     };
   }
   return sel;
+});
+
+var patchAction = exports.patchAction = (0, _ramda.curry)(function (name, duck) {
+  if (duck[_labels.PROMISE]) return duck;
+  return _extends({}, duck, _defineProperty({}, _labels.ACTION, function () {
+    return _extends({}, duck[_labels.ACTION].apply(duck, arguments), _defineProperty({}, _labels.TYPE, duck[_labels.TYPE]));
+  }));
 });
 
 var addType = (0, _ramda.curry)(function (name, duck) {

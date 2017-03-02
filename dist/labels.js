@@ -22,6 +22,7 @@ var ERROR = exports.ERROR = 'error';
 var ASYNC = exports.ASYNC = 'async';
 
 var VALUE = exports.VALUE = '_';
+var BOTTOM = exports.BOTTOM = '_';
 
 exports.default = {
   INIT: INIT, SELECT: SELECT, DUCKS: DUCKS,

@@ -1,11 +1,11 @@
 import {
-  assoc, concat, compose, curry, map, prop, reduce, toPairs
+  concat, compose, curry, map, prop, reduce, toPairs
 } from 'ramda';
 
 import {
   INIT, SELECT, DUCKS,
-  NAME, TYPE, REDUCER,
-  VALUE,
+  NAME, TYPE, ACTION, REDUCER,
+  PROMISE, BOTTOM,
 } from './labels';
 
 const empty = {
@@ -14,11 +14,8 @@ const empty = {
   [DUCKS]: [],
 };
 
-// redeux :: { obj } -> (init, select, action)
 const redeux = (obj) => {
-  if (obj && typeof obj[INIT] !== 'undefined') {
-    return obj;
-  }
+  if (obj && typeof obj[INIT] !== 'undefined') { return obj; }
 
   return reduce(
     (acc, [name, value]) => {
@@ -26,29 +23,35 @@ const redeux = (obj) => {
       const cur = redeux(value);
 
       return {
+        [NAME]: name,
         // INIT
-        [INIT]: compose(
-          assoc(name, cur[INIT])
-        )(acc[INIT]),
+        [INIT]: {
+          ...acc[INIT],
+          [name]: cur[INIT],
+        },
 
         // SELECT
         [SELECT]: {
           ...acc[SELECT],
           [name]: {
-            [VALUE]: prop(name),
+            [BOTTOM]: prop(name),
             ...selectorPatch(name, cur[SELECT]),
           },
         },
 
         // DUCKS
         [DUCKS]: compose(
+          map(patchAction(name)),
           map(patchReducer(name)),
           map(addType(name)),
           concat(cur[DUCKS])
         )(acc[DUCKS]),
 
       };
-    }, empty, toPairs(obj));
+    },
+    empty,
+    toPairs(obj)
+  );
 };
 
 export default redeux;
@@ -68,6 +71,17 @@ const patchSelect = curry((name, sel) => {
     return state => sel(state[NAME]);
   }
   return sel;
+});
+
+export const patchAction = curry((name, duck) => {
+  if (duck[PROMISE]) return duck; // to be continued...
+  return {
+    ...duck,
+    [ACTION]: (...args) => ({
+      ...duck[ACTION](...args),
+      [TYPE]: duck[TYPE],
+    }),
+  };
 });
 
 const addType = curry((name, duck) => {
