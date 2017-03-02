@@ -21,11 +21,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var empty = (_empty = {}, _defineProperty(_empty, _labels.INIT, {}), _defineProperty(_empty, _labels.SELECT, {}), _defineProperty(_empty, _labels.DUCKS, []), _empty);
 
 var redeux = function redeux(obj) {
-  console.log('obj', obj);
   if (obj && typeof obj[_labels.INIT] !== 'undefined') {
     return obj;
   }
-  console.log('notObj');
 
   return (0, _ramda.reduce)(function (acc, _ref) {
     var _ref3;

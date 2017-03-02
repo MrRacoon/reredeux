@@ -16,11 +16,9 @@ const empty = {
 
 // redeux :: { obj } -> (init, select, action)
 const redeux = (obj) => {
-  console.log('obj', obj); // eslint-disable-line
   if (obj && typeof obj[INIT] !== 'undefined') {
     return obj;
   }
-  console.log('notObj'); // eslint-disable-line
 
   return reduce(
     (acc, [name, value]) => {

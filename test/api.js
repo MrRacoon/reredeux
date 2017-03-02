@@ -2,7 +2,7 @@ import { compose, groupBy, length, map, prop } from 'ramda';
 import { createStore } from 'redux';
 import should from 'should';
 
-import { testSelector, log } from './utils';
+import { testSelector } from './utils';
 
 import state from '../example';
 import { LABELS } from '../dist';
@@ -13,7 +13,6 @@ const {
   PROMISE,
 } = LABELS;
 
-log(state);
 let store = createStore(state[REDUCER], state[INIT]);
 
 describe(state[NAME], () => {
