@@ -5,7 +5,7 @@ import should from 'should';
 import { testSelector } from './utils';
 
 import state from '../example';
-import { LABELS } from '../dist';
+import { LABELS } from '../src';
 
 const {
   INIT, SELECT, DUCKS,

@@ -96,7 +96,7 @@ const patchReducer = curry((name, duck) => {
     ...duck,
     [REDUCER]: (state, action) => ({
       ...state,
-      [name]: duck[REDUCER](state[NAME], action),
+      [name]: duck[REDUCER](state[name], action),
     }),
   };
 });

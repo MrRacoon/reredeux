@@ -79,6 +79,6 @@ var addType = (0, _ramda.curry)(function (name, duck) {
 
 var patchReducer = (0, _ramda.curry)(function (name, duck) {
   return _extends({}, duck, _defineProperty({}, _labels.REDUCER, function (state, action) {
-    return _extends({}, state, _defineProperty({}, name, duck[_labels.REDUCER](state[_labels.NAME], action)));
+    return _extends({}, state, _defineProperty({}, name, duck[_labels.REDUCER](state[name], action)));
   }));
 });

@@ -15,7 +15,7 @@
     "lint": "run-s list:*",
     "test:examples": "mocha example/test.js",
     "test:src": "mocha test/api.js",
-    "test": "run-s lint:* build:src test:src"
+    "test": "run-s build:src test:src"
   },
   "repository": {
     "type": "git",
