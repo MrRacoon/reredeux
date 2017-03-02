@@ -1,24 +1,31 @@
-import reredeux, { rere, deux, redeux, tools } from '../dist';
+import { rere, redeux, tools } from '../dist';
 import { counter } from './counter';
-import todo from './todo';
-import phonebook from './phonebook';
+import { todo } from './todo';
+import { phonebook } from './phonebook';
 
-const app = rere(redeux({
-  example: {
-    phonebook,
-    counter,
-    tasks: { todo },
-  },
-}));
+const app = {
+  name: 'example',
+  ...rere(redeux({
+    example: {
+      phonebook,
+      counter,
+      tasks: {
+        todo
+      },
+    },
+  })),
+};
 
 tools.log(app);
 
-const old = reredeux('example', [
-  phonebook,
-  deux('counter', counter),
-  deux('tasks', [ todo ]),
-]);
+// const old = reredeux('example', [
+//   deux('phonebook', phonebook),
+//   deux('counter', counter),
+//   deux('tasks', [
+//     deux('todo', todo)
+//   ]),
+// ]);
+//
+// tools.log(old);
 
-tools.log(old);
-
-export default old;
+export default app;

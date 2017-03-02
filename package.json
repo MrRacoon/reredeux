@@ -11,10 +11,11 @@
     "example": "node -i ./example-dist/index.js",
     "lint:src": "eslint ./src/**/*.js",
     "lint:test": "eslint ./test/**/*.js",
+    "lint:example": "eslint ./example/**/*.js",
     "lint": "run-s list:*",
     "test:examples": "mocha example/test.js",
-    "test:api": "mocha test/api.js",
-    "test": "run-s lint:* build:* test:*"
+    "test:src": "mocha test/api.js",
+    "test": "run-s lint:src build:src test:src"
   },
   "repository": {
     "type": "git",
