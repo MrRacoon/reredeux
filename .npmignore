@@ -1,6 +1,9 @@
-dist/
+src/
+docs/
 example/
 example-dist/
 test/
+
+CONTRIBUTING.md
 .eslint.yml
 .travis.yml
