@@ -16,15 +16,18 @@ const empty = {
   [DUCKS]: [],
 };
 
-const redeux = (obj) => {
+const deux = (obj) => {
   if (obj && typeof obj[INIT] !== 'undefined') { return obj; }
   return reduce(
     (acc, [name, value]) => {
 
-      const cur = redeux(value);
+      const cur = deux(value);
 
       return {
+
+        // NAME
         [NAME]: name,
+
         // INIT
         [INIT]: {
           ...acc[INIT],
@@ -48,6 +51,7 @@ const redeux = (obj) => {
           map(addType(name)),
           chain(expandDefers)
         )(cur[DUCKS]),
+
       };
     },
     empty,
@@ -55,7 +59,7 @@ const redeux = (obj) => {
   );
 };
 
-export default redeux;
+export default deux;
 
 const selectorPatch = curry((n, sel) => {
   switch (typeof sel) {

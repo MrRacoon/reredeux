@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.tools = exports.reducer = exports.lookup = exports.reredeux = exports.redeux = exports.rere = exports.LABELS = undefined;
+exports.tools = exports.reducer = exports.lookup = exports.reredeux = exports.deux = exports.rere = exports.LABELS = undefined;
 
 var _reducer = require('./reducer');
 
@@ -25,21 +25,21 @@ var _rere = require('./rere');
 
 var _rere2 = _interopRequireDefault(_rere);
 
-var _redeux = require('./redeux');
+var _deux = require('./deux');
 
-var _redeux2 = _interopRequireDefault(_redeux);
+var _deux2 = _interopRequireDefault(_deux);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var reredeux = function reredeux() {
-  return (0, _rere2.default)(_redeux2.default.apply(undefined, arguments));
+  return (0, _rere2.default)(_deux2.default.apply(undefined, arguments));
 };
 
 exports.LABELS = _labels2.default;
 exports.rere = _rere2.default;
-exports.redeux = _redeux2.default;
+exports.deux = _deux2.default;
 exports.reredeux = reredeux;
 exports.lookup = _lookup2.default;
 exports.reducer = _reducer2.default;

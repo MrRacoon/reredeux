@@ -3,14 +3,14 @@ import lookup from './lookup';
 import * as tools from './tools';
 import LABELS from './labels';
 import rere from './rere';
-import redeux from './redeux';
-const reredeux = (...args) => rere(redeux(...args));
+import deux from './deux';
+const reredeux = (...args) => rere(deux(...args));
 
 export {
   LABELS,
 
   rere,
-  redeux,
+  deux,
   reredeux,
 
   lookup,
