@@ -41,10 +41,10 @@ const loadTodos = {
   },
 };
 
-export const todos = {
+export const todo = {
   [INIT]   : init,
   [SELECT] : select,
   [DUCKS]  : [ addTodo, loadTodos ],
 };
 
-export default deux('todo', [todos]);
+export default deux('todo', [todo]);

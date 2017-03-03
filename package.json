@@ -12,7 +12,7 @@
     "lint:src": "eslint ./src/**/*.js",
     "lint:test": "eslint ./test/**/*.js",
     "lint:example": "eslint ./example/**/*.js",
-    "lint": "run-s list:*",
+    "lint": "run-s lint:*",
     "test:examples": "mocha example/test.js",
     "test:src": "mocha test/api.js",
     "test": "run-s build:src test:src"

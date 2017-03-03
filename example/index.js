@@ -8,23 +8,11 @@ const app = rere({
     example: {
       phonebook,
       counter,
-      tasks: {
-        todo
-      },
+      todo
     },
   }),
 });
 
 tools.log(app);
-
-// const old = reredeux('example', [
-//   deux('phonebook', phonebook),
-//   deux('counter', counter),
-//   deux('tasks', [
-//     deux('todo', todo)
-//   ]),
-// ]);
-//
-// tools.log(old);
 
 export default app;

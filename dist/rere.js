@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+var _ramda = require('ramda');
+
 var _reducer = require('./reducer');
 
 var _reducer2 = _interopRequireDefault(_reducer);
@@ -23,5 +25,5 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 exports.default = function (deux) {
   var _extends2;
 
-  return _extends({}, deux, (_extends2 = {}, _defineProperty(_extends2, _labels.ACTION, (0, _lookup2.default)(deux[_labels.DUCKS])[_labels.ACTION]), _defineProperty(_extends2, _labels.REDUCER, (0, _reducer2.default)(deux)), _defineProperty(_extends2, 'actions', (0, _lookup2.default)(deux[_labels.DUCKS]).actionByType), _extends2));
+  return _extends({}, deux, (_extends2 = {}, _defineProperty(_extends2, _labels.ACTION, (0, _ramda.pipe)((0, _ramda.indexBy)((0, _ramda.prop)(_labels.NAME)), (0, _ramda.map)((0, _ramda.prop)(_labels.ACTION)))(deux[_labels.DUCKS])), _defineProperty(_extends2, _labels.REDUCER, (0, _reducer2.default)(deux)), _defineProperty(_extends2, 'actions', (0, _lookup2.default)(deux[_labels.DUCKS]).actionByType), _extends2));
 };

@@ -76,9 +76,10 @@ describe('app', () => {
               const CANARY = 'asdfhhh299dhwnxa0a0d9822bbslsiaaudo28000al';
               const s = {
                 ...state[INIT],
-                [CANARY]: 'canary',
+                [CANARY]: CANARY,
               };
-              d[REDUCER](s, d[ACTION]()).should.have.property(CANARY);
+              const res = d[REDUCER](s, d[ACTION]());
+              res.should.have.property(CANARY);
             }
           });
         });
