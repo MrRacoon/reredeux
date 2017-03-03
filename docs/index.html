@@ -71,14 +71,15 @@ layout: default
   <h3>Deux</h3>
 
   <p>
-    The deux function is very powerful. It has the ability to merge modules and
-    and organize branches of state. It does this by recursively descending the
-    spec, and returns an aggregate representation. This result, is later used
-    to create all of our redux'y stuff.
+    The <code>deux</code> function is very powerful. It has the ability to merge
+    modules and organize our branches of state. This is done by recursively
+    descending the spec we provide. The return value, uses the shape of the tree
+    to annotate and patch the action and reducer functions to account for all of
+    the nesting.
   </p>
 
   {% highlight javascript %}
-    const app = redeux({
+    const app = deux({
       example: {
         phonebook,
         counter,
@@ -97,43 +98,65 @@ layout: default
   </p>
   <p>
     For convinience sake, there is a function called <code>reredeux</code> which
-    composes both redeux and reredeux. Often times you'll only need this function,
-    since you can technically use it anywhere <code>redeux</code> is used.
+    composes both <code>rere</code> and <code>deux</code>. Often times you'll
+    only need this function, since you can technically use it anywhere
+    <code>redeux</code> is used.
   </p>
 
   {% highlight javascript %}
     const { reducer, init, actions, select } =
       reredeux({
-        counter: {
-          init: 0,
-          select: { val: s => s },
-          ducks: [ increment, decrement ]
+        data: {
+          counter: {
+            init: 0,
+            select: { val: s => s },
+            ducks: [ increment, decrement ]
+          }
         }
       });
 
     const store = createStore(reducer, init);
     store.getState();
-    // { counter: 0 }
+    // { data: { counter: 0 } }
+  {% endhighlight %}
 
-    // all actions can be found in `app.actions`. they are all organized
-    // according to the structure of your state tree.
-    store.dispatch(actions.counter.increment());
-    store.dispatch(actions.counter.increment());
-    store.getState();
-    // { counter: 2 }
-    store.dispatch(actions.counter.decrement());
-    store.getState();
-    // { counter: 1 }
+  <hr>
+  <br>
+  <h3>Actions and Selectors</h3>
 
-    // our selectors can all be found in `app.select`. they are all organized
-    // according to the structure of your state tree.
-    select.counter.val(store.getState())
-    // 1
+  <p>
+    Once you've created your store, you'll really ony ever need your getters and
+    setters, err... *ahem* your selectors and actions... right.
+  </p>
 
-    // There is a convinience selector at each level of the state tree, know as
-    // `_`. This is a special selector that returns all the state at that level.
-    select.counter._(store.getState())
-    // 1
+  <p>
+    selectors are organized synonomously with the state tree. *NOTE* there is a
+    convinience selector added to every level of the state tree called "bottom".
+    this selector is denoted with the <code>_</code> character.
+  </p>
+
+  {% highlight javascript %}
+    ...
+    select.data.counter.val(store.getState()) // 1
+    select.data.counter._(store.getState()) // 1
+    ...
+  {% endhighlight %}
+
+  <p>
+    Actions are alse organized in the same tree structure.
+  </p>
+
+  {% highlight javascript %}
+    ...
+    store.dispatch(actions.data.counter.increment());
+    store.dispatch(actions.data.counter.increment());
+
+    store.getState(); // { data: { counter: 2 } }
+
+    store.dispatch(actions.data.counter.decrement());
+
+    store.getState(); // { data: { counter: 1 } }
+    ...
   {% endhighlight %}
 
 </div>
