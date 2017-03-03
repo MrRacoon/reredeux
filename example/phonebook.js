@@ -1,12 +1,11 @@
 import { indexBy, memoize, prop } from 'ramda';
-import { LABELS, tools, deux } from '../dist';
+import { LABELS, tools } from '../dist';
 
 const {
   NAME, INIT, SELECT, DUCKS,
   ACTION, REDUCER,
 } = LABELS;
 
-const PB   = 'phonebook';
 const init = {
   entries: [
     { name: 'person1', number: '1(222)333-4444'},
@@ -40,5 +39,3 @@ export const phonebook = {
   [SELECT] : select,
   [DUCKS]  : [ addEntry ],
 };
-
-export default deux(PB, [phonebook]);

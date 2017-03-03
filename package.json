@@ -15,7 +15,10 @@
     "lint": "run-s lint:*",
     "test:examples": "mocha example/test.js",
     "test:src": "mocha test/api.js",
-    "test": "run-s build:src test:src"
+    "test": "run-s build:src test:src",
+    "jekyll:open": "xdg-open http://localhost:4000",
+    "jekyll:serve": "jekyll serve",
+    "docs": "run-p jekyll:*"
   },
   "repository": {
     "type": "git",

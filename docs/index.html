@@ -44,32 +44,26 @@ layout: default
 
   <p>
     Ducks get organized into modules.
-    Each module needs an initial state.
-    Few selectors for selecting info from that state. To construct a module, we
-    call <code>deux</code> on it. The first parameter will be the name of the
-    module, while the second will be an object with the following properties:
+    Each module needs an initial state, a few selectors for selecting
+    information, and ducks for modifying pieces of that state.
   </p>
 
   {% highlight javascript %}
-    import { deux } from 'reredeux';
-
     const increment = { ... };
     const decrement = { ... };
 
-    const module = deux('counter', [
-      {
-        // The initial state should reflect the state that your ducks will be
-        // manipulating.
-        init: 0,
+    const module = {
+      // The initial state should reflect the state that your ducks will be
+      // manipulating.
+      init: 0,
 
-        // A map of selectors, for extracting state from the above contract.
-        select: { val: s => s },
+      // A map of selectors, for extracting state from the above contract.
+      select: { val: s => s },
 
-        // The list of all of the ducks that interact at this level with the
-        // state.
-        ducks: [ increment, decrement ]
-      }
-    ]);
+      // The list of all of the ducks that interact at this level with the
+      // state.
+      ducks: [ increment, decrement ]
+    };
   {% endhighlight %}
 
   <hr>
@@ -78,20 +72,19 @@ layout: default
 
   <p>
     The deux function is very powerful. It has the ability to merge modules and
-    and organize branches of state. Notice that we can call deux, inside of
-    another deux's list of modules.
+    and organize branches of state. It does this by recursively descending the
+    spec, and returns an aggregate representation. This result, is later used
+    to create all of our redux'y stuff.
   </p>
 
   {% highlight javascript %}
-    const module =
-      deux('app', [
-        deux('tasks', [
-          toDeuxList,
-        ])
-        deux('cooking', [
-          fonDeuxRecipes
-        ])
-      ]);
+    const app = redeux({
+      example: {
+        phonebook,
+        counter,
+        todo
+      },
+    });
   {% endhighlight %}
 
   <hr>
@@ -102,14 +95,21 @@ layout: default
     Once we have a state declared the way we want, we'll call <code>rere</code>
     on it to extract everything we'll need to plug in to our redux store.
   </p>
+  <p>
+    For convinience sake, there is a function called <code>reredeux</code> which
+    composes both redeux and reredeux. Often times you'll only need this function,
+    since you can technically use it anywhere <code>redeux</code> is used.
+  </p>
 
   {% highlight javascript %}
     const { reducer, init, actions, select } =
-      rere(deux('counter', [{
-        init: 0,
-        select: { val: s => s },
-        ducks: [ increment, decrement ]
-      }]));
+      reredeux({
+        counter: {
+          init: 0,
+          select: { val: s => s },
+          ducks: [ increment, decrement ]
+        }
+      });
 
     const store = createStore(reducer, init);
     store.getState();

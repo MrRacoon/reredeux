@@ -1,5 +1,5 @@
 import { add, always, compose, identity } from 'ramda';
-import { LABELS, tools, deux } from '../dist';
+import { LABELS, tools } from '../dist';
 
 const { INIT, SELECT, DUCKS, NAME, ACTION, REDUCER, VALUE } = LABELS;
 const { action, reducer } = tools;
@@ -47,6 +47,3 @@ export const counter = {
   // generate actions and reducers.
   [DUCKS]: [ increment, decrement, set, reset ],
 };
-
-// Every module must export these four things
-export default deux('counter', [counter]);

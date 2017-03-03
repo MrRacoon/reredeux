@@ -1,5 +1,5 @@
 import { filter, map, prop, propEq } from 'ramda';
-import { LABELS, deux } from '../dist';
+import { LABELS } from '../dist';
 
 const {
   NAME, INIT, SELECT, DUCKS,
@@ -46,5 +46,3 @@ export const todo = {
   [SELECT] : select,
   [DUCKS]  : [ addTodo, loadTodos ],
 };
-
-export default deux('todo', [todo]);
