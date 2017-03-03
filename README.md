@@ -9,6 +9,14 @@ Generate redux state trees, selectors, and actions.
 
 Documentation is being collected [here](https://mrracoon.github.io/reredeux/)
 
+### Install
+
+Via npm:
+
+```shell
+npm install reredeux
+```
+
 ### TODO
 
 * [ ] Let the API settle down into a coherent thought.
