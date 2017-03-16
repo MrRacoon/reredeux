@@ -19,15 +19,21 @@ var _tools = require('./tools');
 
 var _labels = require('./labels');
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var empty = (_empty = {}, _defineProperty(_empty, _labels.INIT, {}), _defineProperty(_empty, _labels.SELECT, {}), _defineProperty(_empty, _labels.DUCKS, []), _empty);
 
 var deux = function deux(obj) {
+  var _ref4;
+
+  var post = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : (0, _ramda.always)(empty);
+
   if (obj && typeof obj[_labels.INIT] !== 'undefined') {
     return obj;
   }
-  return (0, _ramda.reduce)(function (acc, _ref) {
+  var constructed = (0, _ramda.reduce)(function (acc, _ref) {
     var _ref3;
 
     var _ref2 = _slicedToArray(_ref, 2),
@@ -36,8 +42,10 @@ var deux = function deux(obj) {
 
     var cur = deux(value);
 
-    return _ref3 = {}, _defineProperty(_ref3, _labels.NAME, name), _defineProperty(_ref3, _labels.INIT, _extends({}, acc[_labels.INIT], _defineProperty({}, name, cur[_labels.INIT]))), _defineProperty(_ref3, _labels.SELECT, _extends({}, acc[_labels.SELECT], _defineProperty({}, name, _extends({}, selectorPatch(name, cur[_labels.SELECT]), _defineProperty({}, _labels.BOTTOM, (0, _ramda.prop)(name)))))), _defineProperty(_ref3, _labels.DUCKS, (0, _ramda.compose)((0, _ramda.concat)(acc[_labels.DUCKS]), (0, _ramda.map)(patchReducer(name)), (0, _ramda.map)(patchAction(name)), (0, _ramda.map)(addType(name)), (0, _ramda.chain)(_tools.expandDefers))(cur[_labels.DUCKS])), _ref3;
+    return _ref3 = {}, _defineProperty(_ref3, _labels.NAME, ''), _defineProperty(_ref3, _labels.INIT, _extends({}, acc[_labels.INIT] || {}, _defineProperty({}, name, cur[_labels.INIT] || {}))), _defineProperty(_ref3, _labels.SELECT, _extends({}, acc[_labels.SELECT] || {}, _defineProperty({}, name, _extends({}, selectorPatch(name, cur[_labels.SELECT] || {}), _defineProperty({}, _labels.BOTTOM, (0, _ramda.prop)(name)))))), _defineProperty(_ref3, _labels.DUCKS, (0, _ramda.compose)((0, _ramda.concat)(acc[_labels.DUCKS]), (0, _ramda.map)(patchReducer(name)), (0, _ramda.map)(patchAction(name)), (0, _ramda.map)(addType(name)), (0, _ramda.chain)(_tools.expandDefers))(cur[_labels.DUCKS])), _ref3;
   }, empty, (0, _ramda.toPairs)(obj));
+  var toMerge = post(constructed);
+  return _ref4 = {}, _defineProperty(_ref4, _labels.NAME, ''), _defineProperty(_ref4, _labels.INIT, _extends({}, constructed[_labels.INIT], toMerge[_labels.INIT])), _defineProperty(_ref4, _labels.SELECT, _extends({}, constructed[_labels.SELECT], toMerge[_labels.SELECT])), _defineProperty(_ref4, _labels.DUCKS, [].concat(_toConsumableArray(constructed[_labels.DUCKS]), _toConsumableArray(toMerge[_labels.DUCKS]))), _ref4;
 };
 
 exports.default = deux;

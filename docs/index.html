@@ -6,31 +6,25 @@ layout: default
 
   <h2>Ducks</h2>
 
-  <p> Ducks are objects that describe redux duck-typed actions. </p>
+  <p>Ducks are objects that describe redux state transitions.</p>
 
   <p>
-    <code>Ducks</code> describe state transitions. They should look familiar if
-    you've used duck-typing in redux. The goal is to isolate all code for every
-    action in a single place. Making it simple to maintain, and easy to
-    manipulate in our state tree.
+    The goal is to isolate all code for every action in a single place. Making
+    transitions simpler to maintain, and quicker to analyze.
   </p>
 
   {% highlight javascript %}
-    const duck = {
+    const increment = {
 
       // This is typically what you would use for the name of your action
-      // creator. It will be used for constructing the `type` field (done
-      // automatically); and as the key in a map that will hold all of the
-      // dispatchable actions, later on.
+      // creator.
       name: 'increment',
 
       // Your action creator
       action: payload => ({ payload }),
 
       // Your transducer,
-      // You've seen them as the case blocks within switch statements.  This
-      // function only ever gets called if the action we're defining is actually
-      // dispatched.
+      // You've seen them as the case blocks within switch statements.
       reducer: (s, { payload }) =>
         payload
           ? s + payload
@@ -43,9 +37,10 @@ layout: default
   <h3>Modules</h3>
 
   <p>
-    Ducks get organized into modules.
-    Each module needs an initial state, a few selectors for selecting
-    information, and ducks for modifying pieces of that state.
+    Ducks get organized into modules. Each module needs an initial state, a few
+    selectors for selecting information (functions that recieve the modules
+    state as the argument), and a list of ducks for modifying pieces of that
+    state.
   </p>
 
   {% highlight javascript %}
@@ -58,11 +53,18 @@ layout: default
       init: 0,
 
       // A map of selectors, for extracting state from the above contract.
-      select: { val: s => s },
+      select: {
+        val  : s => s,
+        succ : s => s + 1,
+        pred : s => s - 1,
+      },
 
       // The list of all of the ducks that interact at this level with the
       // state.
-      ducks: [ increment, decrement ]
+      ducks: [
+        increment,
+        decrement,
+      ]
     };
   {% endhighlight %}
 
@@ -78,13 +80,21 @@ layout: default
     the nesting.
   </p>
 
+  <p>
+    This enables us to reuse state, in multiple places, such as the
+    <code>counter</code> in this example:
+  </p>
+
   {% highlight javascript %}
     const app = deux({
       example: {
         phonebook,
         counter,
-        todo
       },
+      otherState: {
+        todo,
+        counter,
+      }
     });
   {% endhighlight %}
 
@@ -104,20 +114,24 @@ layout: default
   </p>
 
   {% highlight javascript %}
+    const counter = {
+      init: 0,
+      select: { val: s => s },
+      ducks: [ increment, decrement ]
+    };
     const { reducer, init, actions, select } =
       reredeux({
         data: {
-          counter: {
-            init: 0,
-            select: { val: s => s },
-            ducks: [ increment, decrement ]
-          }
+          counter,
+        },
+        otherData: {
+          counter,
         }
       });
 
     const store = createStore(reducer, init);
     store.getState();
-    // { data: { counter: 0 } }
+    // { data: { counter: 0 }, otherData: { counter: 0 } }
   {% endhighlight %}
 
   <hr>
@@ -125,38 +139,27 @@ layout: default
   <h3>Actions and Selectors</h3>
 
   <p>
-    Once you've created your store, you'll really ony ever need your getters and
-    setters, err... *ahem* your selectors and actions... right.
-  </p>
-
-  <p>
-    selectors are organized synonomously with the state tree. *NOTE* there is a
-    convinience selector added to every level of the state tree called "bottom".
-    this selector is denoted with the <code>_</code> character.
+    Once you've created your store, you'll have access to <code>actions</code>
+    and <code>select</code>. Both objects mimic the shape of your state tree.
   </p>
 
   {% highlight javascript %}
-    ...
-    select.data.counter.val(store.getState()) // 1
-    select.data.counter._(store.getState()) // 1
-    ...
-  {% endhighlight %}
-
-  <p>
-    Actions are alse organized in the same tree structure.
-  </p>
-
-  {% highlight javascript %}
-    ...
     store.dispatch(actions.data.counter.increment());
     store.dispatch(actions.data.counter.increment());
 
-    store.getState(); // { data: { counter: 2 } }
+    select.data.counter.val(store.getState()) // 2
+    select.otherData.counter.val(store.getState()) // 0
 
     store.dispatch(actions.data.counter.decrement());
 
-    store.getState(); // { data: { counter: 1 } }
-    ...
+    select.data.counter._(store.getState()) // 1
+    select.otherData.counter.val(store.getState()) // 0
   {% endhighlight %}
+
+  <p>
+    <b>NOTE:</b> there is a convinience selector added to every level of the
+    state tree. This selector is denoted with the <code>_</code> character, and
+    will return all of the state at that level on down.
+  </p>
 
 </div>

@@ -12,25 +12,28 @@ const init = [
 ];
 
 const select = {};
-select.value     = state => state;
-select.titles    = state => map(prop('name'), select.value(state));
-select.statuses  = state => map(prop('complete'), select.value(state));
-select.completed = state =>
-  filter(
-    propEq('complete', true),
-    select.value(state)
-  );
-select.pending = state =>
-  filter(
-    propEq('complete', false),
-    select.value(state)
-  );
+select.titles    = map(prop('name')),
+select.statuses  = map(prop('complete')),
+select.completed = filter(
+  propEq('complete', true)
+);
+select.pending   = filter(
+  propEq('complete', false)
+);
 
 const addTodo = {
   [NAME]    : 'addTodo',
   [ACTION]  : (payload) => ({ payload }),
   [REDUCER] : (s, { payload }) => s.concat([payload]),
 };
+
+const remove = {
+  [NAME]    : 'remove',
+  [ACTION]  : (payload) => ({ payload }),
+  [REDUCER] : (s, { payload }) =>
+    s.filter(td => td.id !== payload),
+};
+
 
 const loadTodos = {
   [NAME]    : 'loadTodos',
@@ -44,5 +47,9 @@ const loadTodos = {
 export const todo = {
   [INIT]   : init,
   [SELECT] : select,
-  [DUCKS]  : [ addTodo, loadTodos ],
+  [DUCKS]  : [
+    addTodo,
+    loadTodos,
+    remove
+  ],
 };

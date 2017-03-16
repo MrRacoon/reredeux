@@ -1,5 +1,5 @@
 import {
-  chain, concat, compose, curry, map, prop, reduce, toPairs
+  always, chain, concat, compose, curry, map, prop, reduce, toPairs
 } from 'ramda';
 
 import { expandDefers } from './tools';
@@ -16,9 +16,9 @@ const empty = {
   [DUCKS]: [],
 };
 
-const deux = (obj) => {
+const deux = (obj, post = always(empty)) => {
   if (obj && typeof obj[INIT] !== 'undefined') { return obj; }
-  return reduce(
+  const constructed = reduce(
     (acc, [name, value]) => {
 
       const cur = deux(value);
@@ -26,19 +26,19 @@ const deux = (obj) => {
       return {
 
         // NAME
-        [NAME]: name,
+        [NAME]: '', // DEPRECATED
 
         // INIT
         [INIT]: {
-          ...acc[INIT],
-          [name]: cur[INIT],
+          ...acc[INIT]      || {},
+          [name]: cur[INIT] || {},
         },
 
         // SELECT
         [SELECT]: {
-          ...acc[SELECT],
+          ...acc[SELECT] || {},
           [name]: {
-            ...selectorPatch(name, cur[SELECT]),
+            ...selectorPatch(name, cur[SELECT] || {}),
             [BOTTOM]: prop(name),
           },
         },
@@ -57,6 +57,22 @@ const deux = (obj) => {
     empty,
     toPairs(obj)
   );
+  const toMerge = post(constructed);
+  return {
+    [NAME]: '', // DEPRECATED
+    [INIT]: {
+      ...constructed[INIT],
+      ...toMerge[INIT],
+    },
+    [SELECT]: {
+      ...constructed[SELECT],
+      ...toMerge[SELECT],
+    },
+    [DUCKS]: [
+      ...constructed[DUCKS],
+      ...toMerge[DUCKS],
+    ],
+  };
 };
 
 export default deux;
