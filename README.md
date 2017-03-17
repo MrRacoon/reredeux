@@ -17,11 +17,6 @@ Via npm:
 npm install reredeux
 ```
 
-### TODO
-
-* [ ] Let the API settle down into a coherent thought.
-* [ ] Provide examples, and step by step documentation w/ opinions.
-
 ### License
 
 [MIT License](http://opensource.org/licenses/MIT)
